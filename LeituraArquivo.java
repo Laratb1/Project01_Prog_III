@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 public class LeituraArquivo {
 
-    public static void lerArquivoPartidos(String[] arquivo) {
+    public static void lerArquivoPartidos(String[] arquivo, Eleicao eleicao) {
         if(arquivo.length != 2){
             System.out.println("Argumentos insuficientes ou em excesso.");
             System.exit(1);
@@ -23,7 +23,6 @@ public class LeituraArquivo {
             String linha = new String();
 
             Partido partido = new Partido();
-            Eleicao eleicao = new Eleicao();
             
             while(s.hasNext()){
                 linha = s.nextLine();
@@ -53,7 +52,7 @@ public class LeituraArquivo {
 
     }
 
-    public static void lerArquivoCandidatos(String arquivo[]) {
+    public static void lerArquivoCandidatos(String arquivo[], Eleicao eleicao) {
         if(arquivo.length != 2){
             System.out.println("Argumentos insuficientes ou em excesso.");
             System.exit(1);
@@ -69,7 +68,6 @@ public class LeituraArquivo {
             String linha = new String();
 
             Candidato candidato = new Candidato();
-            Eleicao eleicao = new Eleicao();
             
             while(s.hasNext()){
                 linha = s.nextLine();
