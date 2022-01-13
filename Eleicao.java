@@ -31,4 +31,10 @@ public class Eleicao{
         }
     }
 
+    public void imprimeNomeCandidatos(){
+        for(Candidato c : candidatos){
+            System.out.print(c.getNomeCandidato());
+        }
+    }
+
 }

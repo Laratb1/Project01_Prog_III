@@ -1,6 +1,6 @@
 public class Partido{
     private String numero_partido;
-    private String votos_legenda;
+    private Integer votos_legenda;
     private String nome_partido;
     private String sigla_partido;
 
@@ -9,7 +9,7 @@ public class Partido{
     public String getNumeroPartido(){
         return this.numero_partido;
     }
-    public String getVotosLegenda(){
+    public Integer getVotosLegenda(){
         return this.votos_legenda;
     }
     public String getNomePartido(){
@@ -24,7 +24,7 @@ public class Partido{
     public void setNumeroPartido(String num){
         this.numero_partido = num;
     }
-    public void setVotosLegenda(String votos){
+    public void setVotosLegenda(Integer votos){
         this.votos_legenda = votos;
     }
     public void setNomePartido(String nome){

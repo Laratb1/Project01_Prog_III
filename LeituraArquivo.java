@@ -8,8 +8,8 @@ import java.util.Scanner;
 public class LeituraArquivo {
 
     public static void lerArquivoPartidos(String[] arquivo) {
-        if(arquivo.length != 1){
-            System.out.println("Erro ao abrir o arquivo");
+        if(arquivo.length != 2){
+            System.out.println("Argumentos insuficientes ou em excesso.");
             System.exit(1);
         }
 
@@ -52,4 +52,56 @@ public class LeituraArquivo {
         }
 
     }
+
+    public static void lerArquivoCandidatos(String arquivo[]) {
+        if(arquivo.length != 2){
+            System.out.println("Argumentos insuficientes ou em excesso.");
+            System.exit(1);
+        }
+
+        try(FileInputStream fp = new FileInputStream(arquivo[1])){
+            InputStreamReader p = new InputStreamReader(fp, "UTF-8");
+            BufferedReader br = new BufferedReader(p);
+            Scanner s = new Scanner(br);
+
+            s.useDelimiter(",");
+            s.nextLine(); 
+            String linha = new String();
+
+            Candidato candidato = new Candidato();
+            Eleicao eleicao = new Eleicao();
+            
+            while(s.hasNext()){
+                linha = s.nextLine();
+                String[] info = linha.split(",");
+
+                candidato.setNumeroCandidato(info[0]);
+                candidato.setVotosNominaisCandidato(Integer.parseInt(info[1]));
+                candidato.setSituacaoCandidato(info[2]);
+                candidato.setNomeCandidato(info[3]);
+                candidato.setNomeUrnaCandidato(info[4]);
+                candidato.setSexoCandidato(info[5]);
+                candidato.setDataNasCandidato(info[6]);
+                candidato.setDestinoVotoCandidato(info[7]);
+                candidato.setNumeroPartidoCandidato(info[8]);
+
+                eleicao.setCandidato(candidato);
+
+                eleicao.imprimeNomeCandidatos();
+                System.out.print("\n");
+
+            }
+            s.close();
+        }
+        catch(FileNotFoundException exc){
+            System.out.println("Arquivo candidatos.csv nao encontrado!");
+            System.exit(1);
+        }
+        catch(IOException exc){
+            System.out.println("Erro durante a leitura do arquivo candidatos.csv");
+            System.exit(1);
+        }
+
+    }
+
 }
