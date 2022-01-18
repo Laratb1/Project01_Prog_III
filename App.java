@@ -97,12 +97,17 @@ public class App {
             System.exit(1);
         }
 
-        eleicao.imprimeNomePartidos();
-        eleicao.imprimeNomeCandidatos();
+        // ============= MAIN ====================
+
+        //eleicao.imprimeNomePartidos();
+        //eleicao.imprimeNomeCandidatos();
+
+        eleicao.associaPartidoCandidato();
+        //eleicao.imprimeNomePartidosCandidatos();
+
+        System.out.println("Numero de vagas (numeros de eleitos): " + eleicao.somaNumeroDeVagas());
+
+        eleicao.imprimeCandidatosEleitos();
 
     }
-
-    
-
-    
 }
