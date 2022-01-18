@@ -25,10 +25,9 @@ public class App {
             s.useDelimiter(",");
             s.nextLine(); //pula a primeira linha 
             String linha = new String();
-
-            Partido partido = new Partido();
             
             while(s.hasNext()){
+                Partido partido = new Partido();
                 linha = s.nextLine();
                 String[] info = linha.split(",");
 
@@ -38,9 +37,6 @@ public class App {
                 partido.setSiglaPartido(info[3]);
 
                 eleicao.setPartido(partido);
-
-                eleicao.imprimeNomePartidos(); //teste
-
             }
             s.close();
         }
@@ -69,11 +65,13 @@ public class App {
             s.nextLine(); 
             String linha = new String();
 
-            Candidato candidato = new Candidato();
+            //Candidato candidato = new Candidato();
             
             while(s.hasNext()){
+                Candidato candidato = new Candidato();
                 linha = s.nextLine();
                 String[] info = linha.split(",");
+                
 
                 candidato.setNumeroCandidato(info[0]);
                 candidato.setVotosNominaisCandidato(Integer.parseInt(info[1]));
@@ -85,10 +83,7 @@ public class App {
                 candidato.setDestinoVotoCandidato(info[7]);
                 candidato.setNumeroPartidoCandidato(info[8]);
 
-                eleicao.setCandidato(candidato);
-
-                eleicao.imprimeNomeCandidatos();
-                
+                eleicao.setCandidato(candidato);                
 
             }
             s.close();
@@ -102,7 +97,12 @@ public class App {
             System.exit(1);
         }
 
+        eleicao.imprimeNomePartidos();
+        eleicao.imprimeNomeCandidatos();
+
     }
+
+    
 
     
 }
