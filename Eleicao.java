@@ -39,13 +39,71 @@ public class Eleicao{
         }
     }
 
-    public void imprimeNomeCandidatos(){
+    public void imprimeNomePartidosCandidatos(){
         for(Candidato c : candidatos){
             System.out.println(c.getNomeCandidato());
+            c.getPartidoCandidato().imprimePartido();
         }
     }
 
     // Especial functions
+
+    public void associaPartidoCandidato(){ // ISSO É UMA SUGESTÃO TEM FORMA MAIS FÁCIL????
+        for(Partido p : partidos){
+            for(Candidato c : candidatos){
+                if(p.getNumeroPartido().equals(c.getNumeroPartidoCandidato())){
+                    c.setPartidoCandidato(p);
+                }
+            }
+            
+        }
+    }
+
+    public int somaNumeroDeVagas(){ //Lara (1) TALVEZ IMPRIMIR AQUI DENTRO 
+        int soma = 0;
+        for (Candidato c : candidatos){
+            if(c.getSituacaoCandidato().equals("Eleito")){
+                soma++;
+            }
+        }
+        return soma;
+    }
+
+    public void imprimeCandidatosEleitos(){ //Lara (2) TRATAR 1 VOTO???
+        System.out.println("Vereadores eleitos: ");
+
+        int i = 1;
+        for (Candidato c : candidatos){
+            if(c.getSituacaoCandidato().equals("Eleito")){
+                if(c.getVotosNominaisCandidato() == 1){
+                    System.out.println(i + "-" + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
+                }
+                System.out.println(i + "-" + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
+
+                i++;
+            }
+        }
+    }
+
+    /*public LinkedList<Candidato> ordenaCandidatosPorVotoNominal(){
+        Candidato aux = candidatos.getFirst();
+        int quantAux = aux.getVotosNominaisCandidato();
+
+        for(Candidato c : candidatos){
+            if()
+        }
+    }
+
+    public void imprimeCandidatosMaisVotados(int nVagas){ // Lara (3) COMPARACAO FEITA COM O VOTOS NOMINAIS ?????
+        System.out.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas): ");
+
+        int i = 1;
+
+        for(Candidato c : candidatos){
+            if(aux.getVotosNominaisCandidato() )
+        }
+    }*/
+
 
     public int numeroDeCandidatosEleitos(){
         int numero = 0;
