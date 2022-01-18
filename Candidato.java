@@ -8,6 +8,7 @@ public class Candidato {
     private String data_nasc;
     private String destino_voto;
     private String numero_partido;
+    private Partido partido;
 
     //Getters
 
@@ -38,6 +39,9 @@ public class Candidato {
     public String getNumeroPartidoCandidato(){
         return this.numero_partido;
     }
+    public Partido getPartidoCandidato(){
+        return this.partido;
+    }
 
     //Setters
 
@@ -67,6 +71,9 @@ public class Candidato {
     }
     public void setNumeroPartidoCandidato(String numPartido){
         this.numero_partido = numPartido;
+    }
+    public void setPartidoCandidato(Partido p){
+        this.partido = p;
     }
 
     //Functions
