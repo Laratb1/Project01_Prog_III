@@ -34,6 +34,12 @@ public class Partido{
         this.sigla_partido = sigla;
     }
 
+    // Functions 
+
+    public void imprimePartido(){
+        System.out.println("Numero partido: " + this.numero_partido);
+        System.out.println("Sigla: " + this.sigla_partido);        
+    }
 }
 
 
