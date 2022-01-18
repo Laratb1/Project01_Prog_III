@@ -69,7 +69,9 @@ public class Candidato {
         this.numero_partido = numPartido;
     }
 
+    //Functions
 
+    
 
 }
 
