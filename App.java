@@ -105,9 +105,12 @@ public class App {
         eleicao.associaPartidoCandidato();
         //eleicao.imprimeNomePartidosCandidatos();
 
-        System.out.println("Numero de vagas (numeros de eleitos): " + eleicao.somaNumeroDeVagas());
+        int nVagas = eleicao.somaNumeroDeVagas();
+        System.out.println("Numero de vagas (numeros de eleitos): " + nVagas);
 
         eleicao.imprimeCandidatosEleitos();
+
+        eleicao.imprimeCandidatosMaisVotados(nVagas);
 
     }
 }
