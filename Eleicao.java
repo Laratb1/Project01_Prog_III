@@ -76,33 +76,38 @@ public class Eleicao{
         for (Candidato c : candidatos){
             if(c.getSituacaoCandidato().equals("Eleito")){
                 if(c.getVotosNominaisCandidato() == 1){
-                    System.out.println(i + "-" + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
+                    System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
                 }
-                System.out.println(i + "-" + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
+                System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
 
                 i++;
             }
         }
     }
 
-    /*public LinkedList<Candidato> ordenaCandidatosPorVotoNominal(){
-        Candidato aux = candidatos.getFirst();
-        int quantAux = aux.getVotosNominaisCandidato();
+    public LinkedList<Candidato> ordenaCandidatosPorVotoNominal(LinkedList<Candidato> lista){
+       
+        Collections.sort(lista);
 
-        for(Candidato c : candidatos){
-            if()
-        }
+        return lista;
     }
 
     public void imprimeCandidatosMaisVotados(int nVagas){ // Lara (3) COMPARACAO FEITA COM O VOTOS NOMINAIS ?????
         System.out.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas): ");
 
-        int i = 1;
-
+        int i = 0;
         for(Candidato c : candidatos){
-            if(aux.getVotosNominaisCandidato() )
+            if(i == nVagas){
+                break;
+            }
+            if(c.getVotosNominaisCandidato() == 1){
+                System.out.println(i+1 + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
+            }
+            System.out.println(i+1 + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
+
+            i++;
         }
-    }*/
+    }
 
 
     public int numeroDeCandidatosEleitos(){
