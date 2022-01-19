@@ -1,4 +1,4 @@
-public class Candidato {
+public class Candidato implements Comparable<Candidato>{
     private String numero;
     private int votos_nominais;
     private String situacao;
@@ -78,7 +78,17 @@ public class Candidato {
 
     //Functions
 
-    
+    @Override
+    public int compareTo(Candidato c){ 
+        if (this.votos_nominais > c.getVotosNominaisCandidato()){ 
+            return -1; 
+        } 
+        if (this.votos_nominais < c.getVotosNominaisCandidato()){ 
+            return 1; 
+        } 
+
+        return 0; 
+    }
 
 }
 
