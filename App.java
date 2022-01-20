@@ -99,22 +99,24 @@ public class App {
 
         // ============= MAIN ====================
 
-        //eleicao.imprimeNomePartidos();
-        //eleicao.imprimeNomeCandidatos();
+        eleicao.associaPartidoCandidato();
 
-        //eleicao.associaPartidoCandidato();
-        //eleicao.imprimeNomePartidosCandidatos();
 
-        //int nVagas = eleicao.somaNumeroDeVagas();
-        //System.out.println("Numero de vagas (numeros de eleitos): " + nVagas);
+        int nVagas = eleicao.somaNumeroDeVagas();
+        System.out.println("Numero de vagas (numeros de eleitos): " + nVagas);
+        System.out.print("\n");
 
-        //eleicao.imprimeCandidatosEleitos();
+        eleicao.imprimeCandidatosEleitos();
+        System.out.print("\n");
 
-        //eleicao.imprimeCandidatosMaisVotados(nVagas);
+        eleicao.imprimeCandidatosMaisVotados(nVagas);
+        System.out.print("\n");
 
+        eleicao.imprimeNaoEleitosMasSeriamEmMajoritario();
+        
         // ============= TESTES DA MILLA ====================
 
-        eleicao.ordenaCandidatosPorVotoNominal(eleicao.getCandidatos());
+        /*eleicao.ordenaCandidatosPorVotoNominal(eleicao.getCandidatos());
 
         eleicao.imprimeNomeCandidatos();
 
@@ -122,7 +124,7 @@ public class App {
         System.out.println("====== Primeiros e Ultimos colocados (9) ======");
         System.out.print("\n");
 
-        eleicao.primeiroUltimoColocadoPorPartido(); // Tratar casos que não tem último colocado
+        eleicao.primeiroUltimoColocadoPorPartido();  //Tratar casos que não tem último colocado
 
         System.out.print("\n");
         System.out.println("====== Votos legenda com porcentagem (8) ======");
@@ -146,7 +148,7 @@ public class App {
         System.out.println("====== Contabilizacao dos votos (12) ======");
         System.out.print("\n");
 
-        eleicao.contabilizacaoDosVotos();
+        eleicao.contabilizacaoDosVotos();*/
 
     }
 }
