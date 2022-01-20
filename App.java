@@ -102,15 +102,51 @@ public class App {
         //eleicao.imprimeNomePartidos();
         //eleicao.imprimeNomeCandidatos();
 
-        eleicao.associaPartidoCandidato();
+        //eleicao.associaPartidoCandidato();
         //eleicao.imprimeNomePartidosCandidatos();
 
-        int nVagas = eleicao.somaNumeroDeVagas();
-        System.out.println("Numero de vagas (numeros de eleitos): " + nVagas);
+        //int nVagas = eleicao.somaNumeroDeVagas();
+        //System.out.println("Numero de vagas (numeros de eleitos): " + nVagas);
 
-        eleicao.imprimeCandidatosEleitos();
+        //eleicao.imprimeCandidatosEleitos();
 
-        eleicao.imprimeCandidatosMaisVotados(nVagas);
+        //eleicao.imprimeCandidatosMaisVotados(nVagas);
+
+        // ============= TESTES DA MILLA ====================
+
+        eleicao.ordenaCandidatosPorVotoNominal(eleicao.getCandidatos());
+
+        eleicao.imprimeNomeCandidatos();
+
+        System.out.print("\n");
+        System.out.println("====== Primeiros e Ultimos colocados (9) ======");
+        System.out.print("\n");
+
+        eleicao.primeiroUltimoColocadoPorPartido(); // Tratar casos que não tem último colocado
+
+        System.out.print("\n");
+        System.out.println("====== Votos legenda com porcentagem (8) ======");
+        System.out.print("\n");
+
+        eleicao.votosLegendaPorPartidoPorcentagem();
+
+        System.out.print("\n");
+        System.out.println("====== Distribuição de eleitos para cada faixa etária (10) ======");
+        System.out.print("\n");
+
+        eleicao.distribuicaoEleitosPorIdade();
+
+        System.out.print("\n");
+        System.out.println("====== Eleitos por sexo (11) ======");
+        System.out.print("\n");
+
+        eleicao.eleitosPorSexo();
+
+        System.out.print("\n");
+        System.out.println("====== Contabilizacao dos votos (12) ======");
+        System.out.print("\n");
+
+        eleicao.contabilizacaoDosVotos();
 
     }
 }
