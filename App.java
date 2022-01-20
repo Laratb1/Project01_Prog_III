@@ -121,37 +121,37 @@ public class App {
         eleicao.imprimeNomeCandidatos();
 
         System.out.print("\n");
-        System.out.println("====== Votos totalizados por partidos e número de candidatos eleitos (7) ======");
+        System.out.println("====== Votos totalizados por partidos e número de candidatos eleitos (6) ======");
         System.out.print("\n");
 
         eleicao.votosTotaisCandidatosEleitos();
 
         System.out.print("\n");
-        System.out.println("====== Primeiros e Ultimos colocados (9) ======");
+        System.out.println("====== Primeiros e Ultimos colocados (8) ======");
         System.out.print("\n");
 
         eleicao.primeiroUltimoColocadoPorPartido();  //Tratar casos que não tem último colocado
 
         System.out.print("\n");
-        System.out.println("====== Votos legenda com porcentagem (8) ======");
+        System.out.println("====== Votos legenda com porcentagem (7) ======");
         System.out.print("\n");
 
         eleicao.votosLegendaPorPartidoPorcentagem();
 
         System.out.print("\n");
-        System.out.println("====== Distribuição de eleitos para cada faixa etária (10) ======");
+        System.out.println("====== Distribuição de eleitos para cada faixa etária (9) ======");
         System.out.print("\n");
 
         eleicao.distribuicaoEleitosPorIdade();
 
         System.out.print("\n");
-        System.out.println("====== Eleitos por sexo (11) ======");
+        System.out.println("====== Eleitos por sexo (10) ======");
         System.out.print("\n");
 
         eleicao.eleitosPorSexo();
 
         System.out.print("\n");
-        System.out.println("====== Contabilizacao dos votos (12) ======");
+        System.out.println("====== Contabilizacao dos votos (11) ======");
         System.out.print("\n");
 
         eleicao.contabilizacaoDosVotos();
