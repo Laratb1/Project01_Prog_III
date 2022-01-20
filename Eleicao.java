@@ -39,10 +39,10 @@ public class Eleicao{
         }
     }
 
-    public void imprimeNomePartidosCandidatos(){
+    public void imprimeNomeCandidatos(){
         for(Candidato c : candidatos){
-            System.out.println(c.getNomeCandidato());
-            c.getPartidoCandidato().imprimePartido();
+            System.out.println(c.getNomeCandidato() + " / Votos nominais: " + c.getVotosNominaisCandidato());
+            //c.getPartidoCandidato().imprimePartido();
         }
     }
 
@@ -129,12 +129,14 @@ public class Eleicao{
     }
 
     public void primeiroUltimoColocadoPorPartido(){
-        Candidato primeiro = new Candidato();
-        Candidato ultimo = new Candidato();
-        int maior = 0;
-        int menor = 100000;
+        int i = 1;
 
         for(Partido p : partidos){
+            Candidato primeiro = new Candidato();
+            Candidato ultimo = new Candidato();
+            int maior = 0;
+            int menor = 100000;
+
             for(Candidato c : candidatos){
                 if(c.getNumeroPartidoCandidato().equals(p.getNumeroPartido())){
                     if(c.getSituacaoCandidato().equals("Eleito")){
@@ -142,22 +144,115 @@ public class Eleicao{
                             maior = c.getVotosNominaisCandidato();
                             primeiro = c;
                         }
-                        if(c.getVotosNominaisCandidato() < menor){
+                        else if(c.getVotosNominaisCandidato() < menor){
                             menor = c.getVotosNominaisCandidato();
                             ultimo = c;
                         }
                     }
-                    else{
-                        System.out.println("Ultimo: " + c.getNomeCandidato());
-                    }
                 }
             }
-            maior = 0;
-            menor = 100000;
 
-            System.out.println("Primeiro do partido" + p.getNomePartido() + ": " + primeiro.getNomeCandidato());
-            System.out.println("Ultimo do partido" + p.getNomePartido() + ": " + ultimo.getNomeCandidato());
+            System.out.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", " + primeiro.getNomeUrnaCandidato() + " (" + primeiro.getNumeroCandidato() + ", " + primeiro.getVotosNominaisCandidato() + " votos) / ");
+            System.out.println(ultimo.getNomeUrnaCandidato() + " (" + ultimo.getNumeroCandidato() + ", " + ultimo.getVotosNominaisCandidato() + " votos)");
+            i++;
         }
     }
 
+    public void votosLegendaPorPartidoPorcentagem(){
+        int i = 1;
+
+        for(Partido p : partidos){
+            int votos = p.getVotosLegenda();
+            int total = 0;
+            for(Candidato c : candidatos){
+                if(c.getNumeroPartidoCandidato().equals(p.getNumeroPartido())){
+                    total += c.getVotosNominaisCandidato();
+                }
+            }
+            if (total != 0){
+                double porcentagem = (votos * 100) / total;
+                System.out.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", " + votos + " votos de legenda (" + porcentagem + "% do total do partido)");
+                i++;
+            }
+        }
+    }
+
+    public void distribuicaoEleitosPorIdade(){
+        double menosDe30 = 0;
+        double entre30e40 = 0;
+        double entre40e50 = 0;
+        double entre50e60 = 0;
+        double maisDe60 = 0;
+        double total = 0;
+
+        for(Candidato c : candidatos){
+            if(c.getSituacaoCandidato().equals("Eleito")){
+                total++;
+                if(c.idadeCandidato() < 30){
+                    menosDe30++;
+                }
+                else if(c.idadeCandidato() >= 30 && c.idadeCandidato() < 40){
+                    entre30e40++;
+                }
+                else if(c.idadeCandidato() >= 40 && c.idadeCandidato() < 50){
+                    entre40e50++;
+                }
+                else if(c.idadeCandidato() >= 50 && c.idadeCandidato() < 60){
+                    entre50e60++;
+                }
+                else if(c.idadeCandidato() >= 60){
+                    maisDe60++;
+                }
+            }
+        }
+
+        System.out.println("Eleitos, por faixa etária (na data da eleição):");
+        System.out.printf(" Idade < 30: %.0f (%.2f)\n", menosDe30, (menosDe30 * 100 / total));
+        System.out.printf("30 <= Idade < 40: %.0f (%.2f)\n", entre30e40, entre30e40 * 100 / total);
+        System.out.printf("40 <= Idade < 50: %.0f (%.2f)\n", entre40e50, entre40e50 * 100 / total);
+        System.out.printf("50 <= Idade < 60: %.0f (%.2f)\n", entre50e60, entre50e60 * 100 / total);
+        System.out.printf("60 <= Idade: %.0f (%.2f)\n", maisDe60, maisDe60 * 100 / total);
+    }
+
+    public void eleitosPorSexo(){
+        double homens = 0;
+        double mulheres = 0;
+        double total = 0;
+
+        for(Candidato c : candidatos){
+            if(c.getSituacaoCandidato().equals("Eleito")){
+                total++;
+                if(c.getSexoCandidato().equals("M")){
+                    homens++;
+                }
+                else if(c.getSexoCandidato().equals("F")){
+                    mulheres++;
+                }
+            }
+        }
+
+        System.out.println("Eleitos, por sexo");
+        System.out.printf("Feminino: %.0f (%.2f)\n", mulheres, mulheres * 100 / total);
+        System.out.printf("Masculino: %.0f (%.2f)\n", homens, homens * 100 / total);
+    }
+
+    public void contabilizacaoDosVotos(){
+        double totalVotos = 0;
+        double totalVotosNominais = 0;
+        double totalVotosLegenda = 0;
+
+        for (Partido p : partidos){
+            totalVotosLegenda += p.getVotosLegenda();
+        }
+
+        for (Candidato c : candidatos){
+            totalVotosNominais += c.getVotosNominaisCandidato();
+        }
+
+        totalVotos = totalVotosNominais + totalVotosLegenda;
+
+        System.out.println("Total de votos válidos: " + totalVotos);
+        System.out.printf("Total de votos nominais: %.0f (%.2f)\n", totalVotosNominais, totalVotosNominais * 100 / totalVotos);
+        System.out.printf("Total de votos legenda: %.0f (%.2f)\n", totalVotosLegenda, totalVotosLegenda * 100 / totalVotos);
+    }
 }
