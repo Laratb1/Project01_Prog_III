@@ -78,6 +78,39 @@ public class Candidato implements Comparable<Candidato>{
 
     //Functions
 
+    public int idadeCandidato(){
+        int idade = 0;
+
+        int diaComp = 19;
+        int mesComp = 1;
+        int anoComp = 2022;
+
+        String[] dataNasc = this.getDataNasCandidato().split("/");
+
+        int ano = Integer.parseInt(dataNasc[2]);
+        int mes = Integer.parseInt(dataNasc[1]);
+        int dia = Integer.parseInt(dataNasc[0]);
+
+
+        if (mes < mesComp){
+            idade = anoComp - ano - 1;
+        }
+        else if (mes == mesComp){
+            if(dia < diaComp){
+                idade = anoComp - ano - 1;
+            }
+            else{
+                idade = anoComp - ano;
+            }
+        }
+        else{
+            idade = anoComp - ano;
+        }
+        
+
+        return idade;
+    }
+
     @Override
     public int compareTo(Candidato c){ 
         if (this.votos_nominais > c.getVotosNominaisCandidato()){ 
