@@ -69,17 +69,20 @@ public class Eleicao{
         return soma;
     }
 
+    public void imprimeInformacoesCandidato(Candidato c, int indice){
+        if(c.getVotosNominaisCandidato() == 1){
+            System.out.println(indice + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
+        }
+        System.out.println(indice + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
+    }
+
     public void imprimeCandidatosEleitos(){ //Lara (2) TRATAR 1 VOTO???
         System.out.println("Vereadores eleitos: ");
 
         int i = 1;
         for (Candidato c : candidatos){
             if(c.getSituacaoCandidato().equals("Eleito")){
-                if(c.getVotosNominaisCandidato() == 1){
-                    System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
-                }
-                System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
-
+                this.imprimeInformacoesCandidato(c, i);
                 i++;
             }
         }
@@ -104,11 +107,7 @@ public class Eleicao{
             if(i == nVagas){
                 break;
             }
-            if(c.getVotosNominaisCandidato() == 1){
-                System.out.println(i+1 + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
-            }
-            System.out.println(i+1 + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
-
+            this.imprimeInformacoesCandidato(c, i+1);
             i++;
         }
     }
@@ -137,11 +136,7 @@ public class Eleicao{
         int i = 1;
         for(Candidato c : listaNaoEleitos){
             if(c.getVotosNominaisCandidato() >= listaEleitos.getLast().getVotosNominaisCandidato()){
-                if(c.getVotosNominaisCandidato() == 1){
-                    System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
-                }
-                System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
-    
+                this.imprimeInformacoesCandidato(c, i);
                 i++;
             }
         }
