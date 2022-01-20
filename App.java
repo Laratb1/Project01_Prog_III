@@ -99,7 +99,7 @@ public class App {
 
         // ============= MAIN ====================
 
-        eleicao.associaPartidoCandidato();
+        /*eleicao.associaPartidoCandidato();
 
 
         int nVagas = eleicao.somaNumeroDeVagas();
@@ -112,13 +112,19 @@ public class App {
         eleicao.imprimeCandidatosMaisVotados(nVagas);
         System.out.print("\n");
 
-        eleicao.imprimeNaoEleitosMasSeriamEmMajoritario();
+        eleicao.imprimeNaoEleitosMasSeriamEmMajoritario();*/
         
         // ============= TESTES DA MILLA ====================
 
-        /*eleicao.ordenaCandidatosPorVotoNominal(eleicao.getCandidatos());
+        //eleicao.ordenaCandidatosPorVotoNominal(eleicao.getCandidatos());
 
         eleicao.imprimeNomeCandidatos();
+
+        System.out.print("\n");
+        System.out.println("====== Votos totalizados por partidos e número de candidatos eleitos (7) ======");
+        System.out.print("\n");
+
+        eleicao.votosTotaisCandidatosEleitos();
 
         System.out.print("\n");
         System.out.println("====== Primeiros e Ultimos colocados (9) ======");
@@ -148,7 +154,7 @@ public class App {
         System.out.println("====== Contabilizacao dos votos (12) ======");
         System.out.print("\n");
 
-        eleicao.contabilizacaoDosVotos();*/
+        eleicao.contabilizacaoDosVotos();
 
     }
 }
