@@ -164,12 +164,22 @@ public class Eleicao{
         return numero;
     }
 
-    public int numeroVotosLegenda(){
-        int numero = 0;
-        for(Partido p : partidos){
-                numero += p.getVotosLegenda();
+    public void votosTotaisCandidatosEleitos(){
+        int i = 1;
+        for (Partido p : partidos){
+            int totalEleitos = 0;
+            int votosTotais = 0;
+            for(Candidato c : candidatos){
+                if(c.getNumeroPartidoCandidato().equals(p.getNumeroPartido())){
+                    if(c.getSituacaoCandidato().equals("Eleito")){
+                        totalEleitos++;
+                    }
+                    votosTotais += c.getVotosNominaisCandidato();
+                }
+            }
+            System.out.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", " + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + "  nominais e " + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidatos eleitos");
+            i++;
         }
-        return numero;
     }
 
     public void primeiroUltimoColocadoPorPartido(){
