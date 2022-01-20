@@ -85,18 +85,22 @@ public class Eleicao{
         }
     }
 
-    public LinkedList<Candidato> ordenaCandidatosPorVotoNominal(LinkedList<Candidato> lista){
+    public static LinkedList<Candidato> ordenaCandidatosPorVotoNominal(LinkedList<Candidato> lista){
        
         Collections.sort(lista);
 
         return lista;
     }
 
+    // TESTAR ESSA FUNCAO COM ARQUIVO MAIOR ***MUITO NECESSARIO***
     public void imprimeCandidatosMaisVotados(int nVagas){ // Lara (3) COMPARACAO FEITA COM O VOTOS NOMINAIS ?????
         System.out.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas): ");
 
+        LinkedList<Candidato> lista = new LinkedList<>();
+        lista = ordenaCandidatosPorVotoNominal(this.candidatos);
+
         int i = 0;
-        for(Candidato c : candidatos){
+        for(Candidato c : lista){
             if(i == nVagas){
                 break;
             }
@@ -109,6 +113,46 @@ public class Eleicao{
         }
     }
 
+    // Para ver se seriam eleitos devo comparar com o menos votado e que foi eleito?????
+    public void imprimeNaoEleitosMasSeriamEmMajoritario(){ // Lara (4) SUPLENTE CONTA  ?
+        System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos: (com sua posição no ranking de mais votados)");
+
+        LinkedList<Candidato> listaNaoEleitos = new LinkedList<>();
+        for(Candidato c : candidatos){
+            if(c.getSituacaoCandidato().equals("Não Eleito") || c.getSituacaoCandidato().equals("Suplente")){
+               listaNaoEleitos.add(c);
+            }
+        }
+        listaNaoEleitos = ordenaCandidatosPorVotoNominal(listaNaoEleitos);
+
+        LinkedList<Candidato> listaEleitos = new LinkedList<>();
+        for(Candidato c : candidatos){
+            if(c.getSituacaoCandidato().equals("Eleito")){
+               listaEleitos.add(c);
+            }
+        }
+        listaEleitos = ordenaCandidatosPorVotoNominal(listaEleitos);
+
+        // AQUI É MAIOR OU IGUAL OU SÓ MAIOR ????    
+        int i = 1;
+        for(Candidato c : listaNaoEleitos){
+            if(c.getVotosNominaisCandidato() >= listaEleitos.getLast().getVotosNominaisCandidato()){
+                if(c.getVotosNominaisCandidato() == 1){
+                    System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
+                }
+                System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
+    
+                i++;
+            }
+        }
+
+
+        
+    }
+
+    /*public void imprimeEleitosMasNaoSeriamEmMajoritario(){ // Lara (5)
+
+    }*/
 
     public int numeroDeCandidatosEleitos(){
         int numero = 0;
