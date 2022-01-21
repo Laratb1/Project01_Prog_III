@@ -1,10 +1,17 @@
 import java.util.*;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
+import java.io.FileWriter;
+import java.io.PrintWriter;
 
 public class Eleicao{
     private LinkedList<Candidato> candidatos = new LinkedList<>();
     private LinkedList<Partido> partidos = new LinkedList<>();
-    //private Set<Candidato> candidatos = new HashSet<>();
-    //private Set<Partido> partidos = new HashSet<>();
 
     //Getters
 
@@ -14,13 +21,6 @@ public class Eleicao{
     public LinkedList<Partido> getPartidos(){
         return this.partidos;
     }
-
-    /*public Set<Candidato> getCandidatos(){
-        return this.candidatos;
-    }
-    public Set<Partido> getPartidos(){
-        return this.partidos;
-    }*/
 
     //Setters
 
@@ -43,6 +43,83 @@ public class Eleicao{
         for(Candidato c : candidatos){
             System.out.println(c.getNomeCandidato() + " / Votos nominais: " + c.getVotosNominaisCandidato());
             //c.getPartidoCandidato().imprimePartido();
+        }
+    }
+
+    public void leArquivoCandidatos(String arquivo){
+        try(FileInputStream fp = new FileInputStream(arquivo)){
+            InputStreamReader p = new InputStreamReader(fp, "UTF-8");
+            BufferedReader br = new BufferedReader(p);
+            Scanner s = new Scanner(br);
+
+            s.useDelimiter(",");
+            s.nextLine(); 
+            String linha = new String();
+
+            //Candidato candidato = new Candidato();
+            
+            while(s.hasNext()){
+                Candidato candidato = new Candidato();
+                linha = s.nextLine();
+                String[] info = linha.split(",");
+                
+
+                candidato.setNumeroCandidato(info[0]);
+                candidato.setVotosNominaisCandidato(Integer.parseInt(info[1]));
+                candidato.setSituacaoCandidato(info[2]);
+                candidato.setNomeCandidato(info[3]);
+                candidato.setNomeUrnaCandidato(info[4]);
+                candidato.setSexoCandidato(info[5]);
+                candidato.setDataNasCandidato(info[6]);
+                candidato.setDestinoVotoCandidato(info[7]);
+                candidato.setNumeroPartidoCandidato(info[8]);
+
+                setCandidato(candidato);                
+
+            }
+            s.close();
+        }
+        catch(FileNotFoundException exc){
+            System.out.println("Arquivo " + arquivo + " nao encontrado!");
+            System.exit(1);
+        }
+        catch(IOException exc){
+            System.out.println("Erro durante a leitura do arquivo " + arquivo + ".");
+            System.exit(1);
+        }
+    }
+
+    public void leArquivoPartidos(String arquivo){
+        try(FileInputStream fp = new FileInputStream(arquivo)){
+            InputStreamReader p = new InputStreamReader(fp, "UTF-8");
+            BufferedReader br = new BufferedReader(p);
+            Scanner s = new Scanner(br);
+
+            s.useDelimiter(",");
+            s.nextLine(); //pula a primeira linha 
+            String linha = new String();
+            
+            while(s.hasNext()){
+                Partido partido = new Partido();
+                linha = s.nextLine();
+                String[] info = linha.split(",");
+
+                partido.setNumeroPartido(info[0]);
+                partido.setVotosLegenda(Integer.parseInt(info[1]));
+                partido.setNomePartido(info[2]);
+                partido.setSiglaPartido(info[3]);
+
+                setPartido(partido);
+            }
+            s.close();
+        }
+        catch(FileNotFoundException exc){
+            System.out.println("Arquivo " + arquivo + "nao encontrado!");
+            System.exit(1);
+        }
+        catch(IOException exc){
+            System.out.println("Erro durante a leitura do arquivo" + arquivo);
+            System.exit(1);
         }
     }
 
@@ -76,16 +153,26 @@ public class Eleicao{
         System.out.println(indice + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
     }
 
-    public void imprimeCandidatosEleitos(){ //Lara (2) TRATAR 1 VOTO???
-        System.out.println("Vereadores eleitos: ");
+    public void imprimeCandidatosEleitos() throws IOException{ //Lara (2) TRATAR 1 VOTO???
+        FileWriter arq = new FileWriter("Relatorio_2.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
+
+        gravarArq.println("Vereadores eleitos: ");
 
         int i = 1;
         for (Candidato c : candidatos){
             if(c.getSituacaoCandidato().equals("Eleito")){
-                this.imprimeInformacoesCandidato(c, i);
+                if(c.getVotosNominaisCandidato() == 1){
+                    gravarArq.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
+                }
+                else{
+                    gravarArq.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
+                }
                 i++;
             }
         }
+
+        arq.close();
     }
 
     public static LinkedList<Candidato> ordenaCandidatosPorVotoNominal(LinkedList<Candidato> lista){
@@ -96,25 +183,40 @@ public class Eleicao{
     }
 
     // TESTAR ESSA FUNCAO COM ARQUIVO MAIOR ***MUITO NECESSARIO***
-    public void imprimeCandidatosMaisVotados(int nVagas){ // Lara (3) COMPARACAO FEITA COM O VOTOS NOMINAIS ?????
-        System.out.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas): ");
+    public void imprimeCandidatosMaisVotados(int nVagas) throws IOException{ // Lara (3) COMPARACAO FEITA COM O VOTOS NOMINAIS ?????
+        FileWriter arq = new FileWriter("Relatorio_3.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
+
+        gravarArq.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas): ");
 
         LinkedList<Candidato> lista = new LinkedList<>();
         lista = ordenaCandidatosPorVotoNominal(this.candidatos);
 
         int i = 0;
+        int j = 1;
         for(Candidato c : lista){
             if(i == nVagas){
                 break;
             }
-            this.imprimeInformacoesCandidato(c, i+1);
+            if(c.getVotosNominaisCandidato() == 1){
+                gravarArq.println(j + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
+            }
+            else{
+                gravarArq.println(j + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
+            }
             i++;
+            j++;
         }
+
+        arq.close();
     }
 
     // Para ver se seriam eleitos devo comparar com o menos votado e que foi eleito?????
-    public void imprimeNaoEleitosMasSeriamEmMajoritario(int nVagas){ // Lara (4) SUPLENTE CONTA  ?
-        System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos: \n(com sua posição no ranking de mais votados)");
+    public void imprimeNaoEleitosMasSeriamEmMajoritario(int nVagas) throws IOException{ // Lara (4) SUPLENTE CONTA  ?
+        FileWriter arq = new FileWriter("Relatorio_4.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
+        
+        gravarArq.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos: \n(com sua posição no ranking de mais votados)");
 
         LinkedList<Candidato> lista = new LinkedList<>();
         lista = ordenaCandidatosPorVotoNominal(candidatos);
@@ -126,16 +228,24 @@ public class Eleicao{
                 break;
             }
             if(c.getSituacaoCandidato().equals("Nao Eleito") || c.getSituacaoCandidato().equals("Suplente")){
-                this.imprimeInformacoesCandidato(c, cont);
+                if(c.getVotosNominaisCandidato() == 1){
+                    gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
+                }
+                else{
+                    gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
+                }
             }
             i++;
             cont++;
         }
-        
+        arq.close();
     }
 
-    public void imprimeEleitosMasNaoSeriamEmMajoritario(int nVagas){ // Lara (5)
-        System.out.println("Eleitos, que se beneficiaram do sistema proporcional: \n(com sua posição no ranking de mais votados)");
+    public void imprimeEleitosMasNaoSeriamEmMajoritario(int nVagas) throws IOException{ // Lara (5)
+        FileWriter arq = new FileWriter("Relatorio_5.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
+
+        gravarArq.println("Eleitos, que se beneficiaram do sistema proporcional: \n(com sua posição no ranking de mais votados)");
         LinkedList<Candidato> lista = new LinkedList<>();
         lista = ordenaCandidatosPorVotoNominal(candidatos);
                 
@@ -146,11 +256,18 @@ public class Eleicao{
                 break;
             }
             if(c.getSituacaoCandidato().equals("Eleito")){
-                this.imprimeInformacoesCandidato(c, cont);
+                if(c.getVotosNominaisCandidato() == 1){
+                    gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
+                }
+                else{
+                    gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
+                }
             }
             i++;
             cont++;
         }
+
+        arq.close();
 
     }
 
@@ -164,8 +281,12 @@ public class Eleicao{
         return numero;
     }
 
-    public void votosTotaisCandidatosEleitos(){
+    public void votosTotaisCandidatosEleitos() throws IOException{
         int i = 1;
+
+        FileWriter arq = new FileWriter("Relatorio_6.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
+
         for (Partido p : partidos){
             int totalEleitos = 0;
             int votosTotais = 0;
@@ -177,13 +298,19 @@ public class Eleicao{
                     votosTotais += c.getVotosNominaisCandidato();
                 }
             }
-            System.out.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", " + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + "  nominais e " + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidatos eleitos");
+
+            gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", " + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + "  nominais e " + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidatos eleitos");
             i++;
         }
+
+        arq.close();
     }
 
-    public void primeiroUltimoColocadoPorPartido(){
+    public void primeiroUltimoColocadoPorPartido() throws IOException{
         int i = 1;
+
+        FileWriter arq = new FileWriter("Relatorio_7.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
 
         for(Partido p : partidos){
             Candidato primeiro = new Candidato();
@@ -206,15 +333,20 @@ public class Eleicao{
                 }
             }
 
-            System.out.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", " + primeiro.getNomeUrnaCandidato() + " (" + primeiro.getNumeroCandidato() + ", " + primeiro.getVotosNominaisCandidato() + " votos) / ");
-            System.out.println(ultimo.getNomeUrnaCandidato() + " (" + ultimo.getNumeroCandidato() + ", " + ultimo.getVotosNominaisCandidato() + " votos)");
+            gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", " + primeiro.getNomeUrnaCandidato() + " (" + primeiro.getNumeroCandidato() + ", " + primeiro.getVotosNominaisCandidato() + " votos) / ");
+            gravarArq.println(ultimo.getNomeUrnaCandidato() + " (" + ultimo.getNumeroCandidato() + ", " + ultimo.getVotosNominaisCandidato() + " votos)");
             i++;
         }
+
+        arq.close();
     }
 
-    public void votosLegendaPorPartidoPorcentagem(){
+    public void votosLegendaPorPartidoPorcentagem() throws IOException{
         int i = 1;
 
+        FileWriter arq = new FileWriter("Relatorio_8.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
+        
         for(Partido p : partidos){
             int votos = p.getVotosLegenda();
             int total = 0;
@@ -225,13 +357,14 @@ public class Eleicao{
             }
             if (total != 0){
                 double porcentagem = (votos * 100) / total;
-                System.out.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", " + votos + " votos de legenda (" + porcentagem + "% do total do partido)");
+                gravarArq.printf("%d - %s - %s, %d votos de legenda (%.2f%%) do total do partido\n", i, p.getSiglaPartido(), p.getNumeroPartido(), votos, porcentagem);
                 i++;
             }
         }
+        arq.close();
     }
 
-    public void distribuicaoEleitosPorIdade(){
+    public void distribuicaoEleitosPorIdade() throws IOException{
         double menosDe30 = 0;
         double entre30e40 = 0;
         double entre40e50 = 0;
@@ -260,15 +393,27 @@ public class Eleicao{
             }
         }
 
-        System.out.println("Eleitos, por faixa etária (na data da eleição):");
-        System.out.printf(" Idade < 30: %.0f (%.2f)\n", menosDe30, (menosDe30 * 100 / total));
-        System.out.printf("30 <= Idade < 40: %.0f (%.2f)\n", entre30e40, entre30e40 * 100 / total);
-        System.out.printf("40 <= Idade < 50: %.0f (%.2f)\n", entre40e50, entre40e50 * 100 / total);
-        System.out.printf("50 <= Idade < 60: %.0f (%.2f)\n", entre50e60, entre50e60 * 100 / total);
-        System.out.printf("60 <= Idade: %.0f (%.2f)\n", maisDe60, maisDe60 * 100 / total);
+        FileWriter arq = new FileWriter("Relatorio_9.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
+
+        gravarArq.printf("Eleitos, por faixa etária (na data da eleição):\n");
+        gravarArq.printf(" Idade < 30: %.0f (%.2f)\n", menosDe30, (menosDe30 * 100 / total));
+        gravarArq.printf("30 <= Idade < 40: %.0f (%.2f)\n", entre30e40, entre30e40 * 100 / total);
+        gravarArq.printf("40 <= Idade < 50: %.0f (%.2f)\n", entre40e50, entre40e50 * 100 / total);
+        gravarArq.printf("50 <= Idade < 60: %.0f (%.2f)\n", entre50e60, entre50e60 * 100 / total);
+        gravarArq.printf("60 <= Idade: %.0f (%.2f)\n", maisDe60, maisDe60 * 100 / total);
+
+        arq.close();
+
+        //gravarArq.printf("Eleitos, por faixa etária (na data da eleição):");
+        //gravarArq.printf(" Idade < 30: %.0f (%.2f)\n", menosDe30, (menosDe30 * 100 / total));
+        //gravarArq.printf("30 <= Idade < 40: %.0f (%.2f)\n", entre30e40, entre30e40 * 100 / total);
+        //gravarArq.printf("40 <= Idade < 50: %.0f (%.2f)\n", entre40e50, entre40e50 * 100 / total);
+        //gravarArq.printf("50 <= Idade < 60: %.0f (%.2f)\n", entre50e60, entre50e60 * 100 / total);
+        //gravarArq.printf("60 <= Idade: %.0f (%.2f)\n", maisDe60, maisDe60 * 100 / total);
     }
 
-    public void eleitosPorSexo(){
+    public void eleitosPorSexo() throws IOException{
         double homens = 0;
         double mulheres = 0;
         double total = 0;
@@ -285,12 +430,21 @@ public class Eleicao{
             }
         }
 
-        System.out.println("Eleitos, por sexo");
-        System.out.printf("Feminino: %.0f (%.2f)\n", mulheres, mulheres * 100 / total);
-        System.out.printf("Masculino: %.0f (%.2f)\n", homens, homens * 100 / total);
+        FileWriter arq = new FileWriter("Relatorio_10.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
+
+        gravarArq.printf("Eleitos, por sexo\n");
+        gravarArq.printf("Feminino: %.0f (%.2f)\n", mulheres, mulheres * 100 / total);
+        gravarArq.printf("Masculino: %.0f (%.2f)\n", homens, homens * 100 / total);
+
+        arq.close();
+
+        //System.out.println("Eleitos, por sexo");
+        //System.out.printf("Feminino: %.0f (%.2f)\n", mulheres, mulheres * 100 / total);
+        //System.out.printf("Masculino: %.0f (%.2f)\n", homens, homens * 100 / total);
     }
 
-    public void contabilizacaoDosVotos(){
+    public void contabilizacaoDosVotos() throws IOException{
         double totalVotos = 0;
         double totalVotosNominais = 0;
         double totalVotosLegenda = 0;
@@ -305,8 +459,18 @@ public class Eleicao{
 
         totalVotos = totalVotosNominais + totalVotosLegenda;
 
-        System.out.println("Total de votos válidos: " + totalVotos);
-        System.out.printf("Total de votos nominais: %.0f (%.2f)\n", totalVotosNominais, totalVotosNominais * 100 / totalVotos);
-        System.out.printf("Total de votos legenda: %.0f (%.2f)\n", totalVotosLegenda, totalVotosLegenda * 100 / totalVotos);
+        FileWriter arq = new FileWriter("Relatorio_11.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
+
+        gravarArq.printf("Total de votos válidos: " + totalVotos + "\n");
+        gravarArq.printf("Total de votos nominais: %.0f (%.2f%%)\n", totalVotosNominais, totalVotosNominais * 100 / totalVotos);
+        gravarArq.printf("Total de votos legenda: %.0f (%.2f%%)\n", totalVotosLegenda, totalVotosLegenda * 100 / totalVotos);
+
+        arq.close();
+
+
+        //System.out.println("Total de votos válidos: " + totalVotos);
+        //System.out.printf("Total de votos nominais: %.0f (%.2f%%)\n", totalVotosNominais, totalVotosNominais * 100 / totalVotos);
+        //System.out.printf("Total de votos legenda: %.0f (%.2f%%)\n", totalVotosLegenda, totalVotosLegenda * 100 / totalVotos);
     }
 }
