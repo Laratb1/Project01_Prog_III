@@ -114,7 +114,7 @@ public class Eleicao{
 
     // Para ver se seriam eleitos devo comparar com o menos votado e que foi eleito?????
     public void imprimeNaoEleitosMasSeriamEmMajoritario(int nVagas){ // Lara (4) SUPLENTE CONTA  ?
-        System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos: (com sua posição no ranking de mais votados)");
+        System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos: \n(com sua posição no ranking de mais votados)");
 
         LinkedList<Candidato> lista = new LinkedList<>();
         lista = ordenaCandidatosPorVotoNominal(candidatos);
@@ -134,9 +134,25 @@ public class Eleicao{
         
     }
 
-    /*public void imprimeEleitosMasNaoSeriamEmMajoritario(){ // Lara (5)
+    public void imprimeEleitosMasNaoSeriamEmMajoritario(int nVagas){ // Lara (5)
+        System.out.println("Eleitos, que se beneficiaram do sistema proporcional: \n(com sua posição no ranking de mais votados)");
+        LinkedList<Candidato> lista = new LinkedList<>();
+        lista = ordenaCandidatosPorVotoNominal(candidatos);
+                
+        int i = 0;
+        int cont = 1;
+        for(Candidato c : lista){
+            if(i > nVagas){
+                break;
+            }
+            if(c.getSituacaoCandidato().equals("Eleito")){
+                this.imprimeInformacoesCandidato(c, cont);
+            }
+            i++;
+            cont++;
+        }
 
-    }*/
+    }
 
     public int numeroDeCandidatosEleitos(){
         int numero = 0;
