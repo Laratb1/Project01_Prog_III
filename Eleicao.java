@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 public class Eleicao{
     private LinkedList<Candidato> candidatos = new LinkedList<>();
     private LinkedList<Partido> partidos = new LinkedList<>();
+    private int numVagas; 
 
     //Getters
 
@@ -21,6 +22,9 @@ public class Eleicao{
     public LinkedList<Partido> getPartidos(){
         return this.partidos;
     }
+    public int getNumVagas(){
+        return this.numVagas;
+    }
 
     //Setters
 
@@ -29,6 +33,9 @@ public class Eleicao{
     }
     public void setPartido(Partido p){
         partidos.add(p);
+    }
+    public void setNumVagas(int nVagas){
+        this.numVagas = nVagas;
     }
 
     //Functions
@@ -136,14 +143,14 @@ public class Eleicao{
         }
     }
 
-    public int somaNumeroDeVagas(){ //Lara (1) TALVEZ IMPRIMIR AQUI DENTRO 
+    public void somaNumeroDeVagas(){ //Lara (1) TALVEZ IMPRIMIR AQUI DENTRO 
         int soma = 0;
         for (Candidato c : candidatos){
             if(c.getSituacaoCandidato().equals("Eleito")){
                 soma++;
             }
         }
-        return soma;
+        this.setNumVagas(soma);
     }
 
     public void imprimeInformacoesCandidato(Candidato c, int indice){
@@ -183,7 +190,7 @@ public class Eleicao{
     }
 
     // TESTAR ESSA FUNCAO COM ARQUIVO MAIOR ***MUITO NECESSARIO***
-    public void imprimeCandidatosMaisVotados(int nVagas) throws IOException{ // Lara (3) COMPARACAO FEITA COM O VOTOS NOMINAIS ?????
+    public void imprimeCandidatosMaisVotados() throws IOException{ // Lara (3) COMPARACAO FEITA COM O VOTOS NOMINAIS ?????
         FileWriter arq = new FileWriter("Relatorio_3.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
@@ -195,7 +202,7 @@ public class Eleicao{
         int i = 0;
         int j = 1;
         for(Candidato c : lista){
-            if(i == nVagas){
+            if(i == this.numVagas){
                 break;
             }
             if(c.getVotosNominaisCandidato() == 1){
@@ -212,7 +219,7 @@ public class Eleicao{
     }
 
     // Para ver se seriam eleitos devo comparar com o menos votado e que foi eleito?????
-    public void imprimeNaoEleitosMasSeriamEmMajoritario(int nVagas) throws IOException{ // Lara (4) SUPLENTE CONTA  ?
+    public void imprimeNaoEleitosMasSeriamEmMajoritario() throws IOException{ // Lara (4) SUPLENTE CONTA  ?
         FileWriter arq = new FileWriter("Relatorio_4.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
         
@@ -224,7 +231,7 @@ public class Eleicao{
         int i = 0;
         int cont = 1;
         for(Candidato c : lista){
-            if(i > nVagas){
+            if(i > this.numVagas){
                 break;
             }
             if(c.getSituacaoCandidato().equals("Nao Eleito") || c.getSituacaoCandidato().equals("Suplente")){
@@ -241,7 +248,7 @@ public class Eleicao{
         arq.close();
     }
 
-    public void imprimeEleitosMasNaoSeriamEmMajoritario(int nVagas) throws IOException{ // Lara (5)
+    public void imprimeEleitosMasNaoSeriamEmMajoritario() throws IOException{ // Lara (5)
         FileWriter arq = new FileWriter("Relatorio_5.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
@@ -252,7 +259,7 @@ public class Eleicao{
         int i = 0;
         int cont = 1;
         for(Candidato c : lista){
-            if(i > nVagas){
+            if(i > this.numVagas){
                 break;
             }
             if(c.getSituacaoCandidato().equals("Eleito")){
@@ -474,3 +481,4 @@ public class Eleicao{
         //System.out.printf("Total de votos legenda: %.0f (%.2f%%)\n", totalVotosLegenda, totalVotosLegenda * 100 / totalVotos);
     }
 }
+
