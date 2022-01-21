@@ -23,18 +23,18 @@ public class App {
         eleicao.associaPartidoCandidato();
 
 
-        int nVagas = eleicao.somaNumeroDeVagas();
-        System.out.println("Numero de vagas (numeros de eleitos): " + nVagas);
+        eleicao.somaNumeroDeVagas();
+        System.out.println("Numero de vagas (numeros de eleitos): " + eleicao.getNumVagas());
         System.out.print("\n");
 
         eleicao.imprimeCandidatosEleitos();
         System.out.print("\n");
 
-        eleicao.imprimeCandidatosMaisVotados(nVagas);
+        eleicao.imprimeCandidatosMaisVotados();
         System.out.print("\n");
 
-        eleicao.imprimeNaoEleitosMasSeriamEmMajoritario(nVagas);
-        eleicao.imprimeEleitosMasNaoSeriamEmMajoritario(nVagas);
+        eleicao.imprimeNaoEleitosMasSeriamEmMajoritario();
+        eleicao.imprimeEleitosMasNaoSeriamEmMajoritario();
 
 
         
@@ -42,7 +42,7 @@ public class App {
 
         //eleicao.ordenaCandidatosPorVotoNominal(eleicao.getCandidatos());
 
-        eleicao.imprimeNomeCandidatos();
+        /*eleicao.imprimeNomeCandidatos();
 
         System.out.print("\n");
         System.out.println("====== Votos totalizados por partidos e número de candidatos eleitos (6) ======");
@@ -78,7 +78,7 @@ public class App {
         System.out.println("====== Contabilizacao dos votos (11) ======");
         System.out.print("\n");
 
-        eleicao.contabilizacaoDosVotos();
+        eleicao.contabilizacaoDosVotos();*/
 
     }
 }
