@@ -113,35 +113,24 @@ public class Eleicao{
     }
 
     // Para ver se seriam eleitos devo comparar com o menos votado e que foi eleito?????
-    public void imprimeNaoEleitosMasSeriamEmMajoritario(){ // Lara (4) SUPLENTE CONTA  ?
+    public void imprimeNaoEleitosMasSeriamEmMajoritario(int nVagas){ // Lara (4) SUPLENTE CONTA  ?
         System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos: (com sua posição no ranking de mais votados)");
 
-        LinkedList<Candidato> listaNaoEleitos = new LinkedList<>();
-        for(Candidato c : candidatos){
-            if(c.getSituacaoCandidato().equals("Não Eleito") || c.getSituacaoCandidato().equals("Suplente")){
-               listaNaoEleitos.add(c);
+        LinkedList<Candidato> lista = new LinkedList<>();
+        lista = ordenaCandidatosPorVotoNominal(candidatos);
+                
+        int i = 0;
+        int cont = 1;
+        for(Candidato c : lista){
+            if(i > nVagas){
+                break;
             }
-        }
-        listaNaoEleitos = ordenaCandidatosPorVotoNominal(listaNaoEleitos);
-
-        LinkedList<Candidato> listaEleitos = new LinkedList<>();
-        for(Candidato c : candidatos){
-            if(c.getSituacaoCandidato().equals("Eleito")){
-               listaEleitos.add(c);
+            if(c.getSituacaoCandidato().equals("Nao Eleito") || c.getSituacaoCandidato().equals("Suplente")){
+                this.imprimeInformacoesCandidato(c, cont);
             }
+            i++;
+            cont++;
         }
-        listaEleitos = ordenaCandidatosPorVotoNominal(listaEleitos);
-
-        // AQUI É MAIOR OU IGUAL OU SÓ MAIOR ????    
-        int i = 1;
-        for(Candidato c : listaNaoEleitos){
-            if(c.getVotosNominaisCandidato() >= listaEleitos.getLast().getVotosNominaisCandidato()){
-                this.imprimeInformacoesCandidato(c, i);
-                i++;
-            }
-        }
-
-
         
     }
 
