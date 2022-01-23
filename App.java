@@ -26,8 +26,6 @@ public class App {
 
 
         eleicao.somaNumeroDeVagas(); //Relatorio 1
-        System.out.println("Numero de vagas (numeros de eleitos): " + eleicao.getNumVagas());
-        System.out.print("\n");
 
         eleicao.imprimeCandidatosEleitos(); // Relatorio 2
         System.out.print("\n");
