@@ -172,7 +172,7 @@ public class Eleicao{
     }
 
     public void imprimeCandidatosEleitos() throws IOException{ //Lara (2) TRATAR 1 VOTO???
-        FileWriter arq = new FileWriter("Relatorio_2.txt");
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_2.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.println("Vereadores eleitos: ");
@@ -202,7 +202,7 @@ public class Eleicao{
 
     // TESTAR ESSA FUNCAO COM ARQUIVO MAIOR ***MUITO NECESSARIO***
     public void imprimeCandidatosMaisVotados() throws IOException{ // Lara (3) COMPARACAO FEITA COM O VOTOS NOMINAIS ?????
-        FileWriter arq = new FileWriter("Relatorio_3.txt");
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_3.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas): ");
@@ -231,7 +231,7 @@ public class Eleicao{
 
     // Para ver se seriam eleitos devo comparar com o menos votado e que foi eleito?????
     public void imprimeNaoEleitosMasSeriamEmMajoritario() throws IOException{ // Lara (4) SUPLENTE CONTA  ?
-        FileWriter arq = new FileWriter("Relatorio_4.txt");
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_4.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
         
         gravarArq.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos: \n(com sua posição no ranking de mais votados)");
@@ -260,7 +260,7 @@ public class Eleicao{
     }
 
     public void imprimeEleitosMasNaoSeriamEmMajoritario() throws IOException{ // Lara (5)
-        FileWriter arq = new FileWriter("Relatorio_5.txt");
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_5.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.println("Eleitos, que se beneficiaram do sistema proporcional: \n(com sua posição no ranking de mais votados)");
@@ -302,7 +302,7 @@ public class Eleicao{
     public void votosTotaisCandidatosEleitos() throws IOException{
         int i = 1;
 
-        FileWriter arq = new FileWriter("Relatorio_6.txt");
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_6.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
         for (Partido p : partidos){
@@ -327,7 +327,7 @@ public class Eleicao{
     public void primeiroUltimoColocadoPorPartido() throws IOException{
         int i = 1;
 
-        FileWriter arq = new FileWriter("Relatorio_7.txt");
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_7.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
         for(Partido p : partidos){
@@ -362,7 +362,7 @@ public class Eleicao{
     public void votosLegendaPorPartidoPorcentagem() throws IOException{
         int i = 1;
 
-        FileWriter arq = new FileWriter("Relatorio_8.txt");
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_8.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
         
         for(Partido p : partidos){
@@ -411,7 +411,7 @@ public class Eleicao{
             }
         }
 
-        FileWriter arq = new FileWriter("Relatorio_9.txt");
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_9.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.printf("Eleitos, por faixa etária (na data da eleição):\n");
@@ -448,7 +448,7 @@ public class Eleicao{
             }
         }
 
-        FileWriter arq = new FileWriter("Relatorio_10.txt");
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_10.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.printf("Eleitos, por sexo\n");
@@ -477,7 +477,7 @@ public class Eleicao{
 
         totalVotos = totalVotosNominais + totalVotosLegenda;
 
-        FileWriter arq = new FileWriter("Relatorio_11.txt");
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_11.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.printf("Total de votos válidos: " + totalVotos + "\n");
