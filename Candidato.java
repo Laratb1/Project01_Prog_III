@@ -8,6 +8,7 @@ public class Candidato implements Comparable<Candidato>{
     private String data_nasc;
     private String destino_voto;
     private String numero_partido;
+    private int idade;
     private Partido partido;
 
     //Getters
@@ -38,6 +39,9 @@ public class Candidato implements Comparable<Candidato>{
     }
     public String getNumeroPartidoCandidato(){
         return this.numero_partido;
+    }
+    public int getIdadeCandidato(){
+        return this.idade;
     }
     public Partido getPartidoCandidato(){
         return this.partido;
@@ -72,13 +76,16 @@ public class Candidato implements Comparable<Candidato>{
     public void setNumeroPartidoCandidato(String numPartido){
         this.numero_partido = numPartido;
     }
+    public void setIdadeCandidato(int idade){
+        this.idade = idade;
+    }
     public void setPartidoCandidato(Partido p){
         this.partido = p;
     }
 
     //Functions
 
-    public int idadeCandidato(int data[]){
+    public void idadeCandidato(int data[]){
         int idade = 0;
 
         int anoComp = data[2];
@@ -107,19 +114,27 @@ public class Candidato implements Comparable<Candidato>{
             idade = anoComp - ano;
         }
         
-
-        return idade;
+        this.idade = idade;
+        
     }
 
     @Override
     public int compareTo(Candidato c){ 
-        if (this.votos_nominais > c.getVotosNominaisCandidato()){ 
+        if(this.votos_nominais == c.getVotosNominaisCandidato()){
+            if(this.idade > c.getIdadeCandidato()){
+                return -1;
+            }
+            if(this.idade < c.getIdadeCandidato()){
+                return 1;
+            }
+        }
+        if(this.votos_nominais > c.getVotosNominaisCandidato()){ 
             return -1; 
         } 
-        if (this.votos_nominais < c.getVotosNominaisCandidato()){ 
+        if(this.votos_nominais < c.getVotosNominaisCandidato()){ 
             return 1; 
         } 
-
+        
         return 0; 
     }
 
