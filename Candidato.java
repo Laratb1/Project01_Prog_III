@@ -78,12 +78,12 @@ public class Candidato implements Comparable<Candidato>{
 
     //Functions
 
-    public int idadeCandidato(){
+    public int idadeCandidato(int data[]){
         int idade = 0;
 
-        int diaComp = 19;
-        int mesComp = 1;
-        int anoComp = 2022;
+        int anoComp = data[2];
+        int mesComp = data[1];
+        int diaComp = data[0];
 
         String[] dataNasc = this.getDataNasCandidato().split("/");
 

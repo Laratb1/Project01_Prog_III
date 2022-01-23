@@ -12,7 +12,8 @@ import java.io.PrintWriter;
 public class Eleicao{
     private LinkedList<Candidato> candidatos = new LinkedList<>();
     private LinkedList<Partido> partidos = new LinkedList<>();
-    private int numVagas; 
+    private int numVagas;
+    private int[] dataEleicao = new int[3];
 
     //Getters
 
@@ -36,6 +37,16 @@ public class Eleicao{
     }
     public void setNumVagas(int nVagas){
         this.numVagas = nVagas;
+    }
+    public void setDataEleicao(String data){
+
+        String[] dataEleicao = data.split("/");
+
+        
+
+        this.dataEleicao[2] = Integer.parseInt(dataEleicao[2]);
+        this.dataEleicao[1] = Integer.parseInt(dataEleicao[1]);
+        this.dataEleicao[0] = Integer.parseInt(dataEleicao[0]);
     }
 
     //Functions
@@ -382,19 +393,19 @@ public class Eleicao{
         for(Candidato c : candidatos){
             if(c.getSituacaoCandidato().equals("Eleito")){
                 total++;
-                if(c.idadeCandidato() < 30){
+                if(c.idadeCandidato(this.dataEleicao) < 30){
                     menosDe30++;
                 }
-                else if(c.idadeCandidato() >= 30 && c.idadeCandidato() < 40){
+                else if(c.idadeCandidato(this.dataEleicao) >= 30 && c.idadeCandidato(this.dataEleicao) < 40){
                     entre30e40++;
                 }
-                else if(c.idadeCandidato() >= 40 && c.idadeCandidato() < 50){
+                else if(c.idadeCandidato(this.dataEleicao) >= 40 && c.idadeCandidato(this.dataEleicao) < 50){
                     entre40e50++;
                 }
-                else if(c.idadeCandidato() >= 50 && c.idadeCandidato() < 60){
+                else if(c.idadeCandidato(this.dataEleicao) >= 50 && c.idadeCandidato(this.dataEleicao) < 60){
                     entre50e60++;
                 }
-                else if(c.idadeCandidato() >= 60){
+                else if(c.idadeCandidato(this.dataEleicao) >= 60){
                     maisDe60++;
                 }
             }
@@ -441,8 +452,8 @@ public class Eleicao{
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.printf("Eleitos, por sexo\n");
-        gravarArq.printf("Feminino: %.0f (%.2f)\n", mulheres, mulheres * 100 / total);
-        gravarArq.printf("Masculino: %.0f (%.2f)\n", homens, homens * 100 / total);
+        gravarArq.printf("Feminino: %.0f (%.2f%%)\n", mulheres, mulheres * 100 / total);
+        gravarArq.printf("Masculino: %.0f (%.2f%%)\n", homens, homens * 100 / total);
 
         arq.close();
 

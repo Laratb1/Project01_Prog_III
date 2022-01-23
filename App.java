@@ -3,7 +3,7 @@ import java.io.IOException;
 public class App {
     public static void main(String[] args) throws IOException {
 
-        if(args.length != 2){
+        if(args.length != 3){
             System.out.println("Argumentos insuficientes ou em excesso.");
             System.exit(1);
         }
@@ -12,11 +12,13 @@ public class App {
 
         //Leitura do arquivo de partidos
 
-        eleicao.leArquivoPartidos(args[0]);    
+        eleicao.leArquivoCandidatos(args[0]);   
 
         //Leitura do arquivo de candidatos
 
-        eleicao.leArquivoCandidatos(args[1]);
+        eleicao.leArquivoPartidos(args[1]); 
+
+        eleicao.setDataEleicao(args[2]);
 
         // ============= MAIN ====================
 
@@ -42,7 +44,7 @@ public class App {
 
         //eleicao.ordenaCandidatosPorVotoNominal(eleicao.getCandidatos());
 
-        /*eleicao.imprimeNomeCandidatos();
+        eleicao.imprimeNomeCandidatos();
 
         System.out.print("\n");
         System.out.println("====== Votos totalizados por partidos e número de candidatos eleitos (6) ======");
@@ -78,7 +80,7 @@ public class App {
         System.out.println("====== Contabilizacao dos votos (11) ======");
         System.out.print("\n");
 
-        eleicao.contabilizacaoDosVotos();*/
+        eleicao.contabilizacaoDosVotos();
 
     }
 }
