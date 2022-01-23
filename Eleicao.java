@@ -155,7 +155,10 @@ public class Eleicao{
         }
     }
 
-    public void somaNumeroDeVagas(){ //Lara (1) TALVEZ IMPRIMIR AQUI DENTRO 
+    public void somaNumeroDeVagas() throws IOException{ //Lara (1) TALVEZ IMPRIMIR AQUI DENTRO 
+        FileWriter arq = new FileWriter("Relatorios/Relatorio_1.txt");
+        PrintWriter gravarArq = new PrintWriter(arq);
+
         int soma = 0;
         for (Candidato c : candidatos){
             if(c.getSituacaoCandidato().equals("Eleito")){
@@ -163,6 +166,9 @@ public class Eleicao{
             }
         }
         this.setNumVagas(soma);
+        gravarArq.println("Numero de vagas (numeros de eleitos): " + this.numVagas);
+
+        arq.close();
     }
 
     public void imprimeInformacoesCandidato(Candidato c, int indice){
