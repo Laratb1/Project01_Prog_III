@@ -90,6 +90,7 @@ public class Eleicao{
                 candidato.setSexoCandidato(info[5]);
                 candidato.setDataNasCandidato(info[6]);
                 candidato.setDestinoVotoCandidato(info[7]);
+                candidato.idadeCandidato(this.dataEleicao);
                 candidato.setNumeroPartidoCandidato(info[8]);
 
                 setCandidato(candidato);                
@@ -171,11 +172,19 @@ public class Eleicao{
         System.out.println(indice + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " (" + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
     }
 
+    public static LinkedList<Candidato> ordenaCandidatosPorVotoNominal(LinkedList<Candidato> lista){
+       
+        Collections.sort(lista);
+
+        return lista;
+    }
+
     public void imprimeCandidatosEleitos() throws IOException{ //Lara (2) TRATAR 1 VOTO???
         FileWriter arq = new FileWriter("Relatorios/Relatorio_2.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.println("Vereadores eleitos: ");
+        candidatos = ordenaCandidatosPorVotoNominal(candidatos);
 
         int i = 1;
         for (Candidato c : candidatos){
@@ -191,13 +200,6 @@ public class Eleicao{
         }
 
         arq.close();
-    }
-
-    public static LinkedList<Candidato> ordenaCandidatosPorVotoNominal(LinkedList<Candidato> lista){
-       
-        Collections.sort(lista);
-
-        return lista;
     }
 
     // TESTAR ESSA FUNCAO COM ARQUIVO MAIOR ***MUITO NECESSARIO***
@@ -393,19 +395,19 @@ public class Eleicao{
         for(Candidato c : candidatos){
             if(c.getSituacaoCandidato().equals("Eleito")){
                 total++;
-                if(c.idadeCandidato(this.dataEleicao) < 30){
+                if(c.getIdadeCandidato() < 30){
                     menosDe30++;
                 }
-                else if(c.idadeCandidato(this.dataEleicao) >= 30 && c.idadeCandidato(this.dataEleicao) < 40){
+                else if(c.getIdadeCandidato() >= 30 && c.getIdadeCandidato() < 40){
                     entre30e40++;
                 }
-                else if(c.idadeCandidato(this.dataEleicao) >= 40 && c.idadeCandidato(this.dataEleicao) < 50){
+                else if(c.getIdadeCandidato() >= 40 && c.getIdadeCandidato() < 50){
                     entre40e50++;
                 }
-                else if(c.idadeCandidato(this.dataEleicao) >= 50 && c.idadeCandidato(this.dataEleicao) < 60){
+                else if(c.getIdadeCandidato() >= 50 && c.getIdadeCandidato() < 60){
                     entre50e60++;
                 }
-                else if(c.idadeCandidato(this.dataEleicao) >= 60){
+                else if(c.getIdadeCandidato() >= 60){
                     maisDe60++;
                 }
             }
