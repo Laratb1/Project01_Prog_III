@@ -90,7 +90,7 @@ public class Eleicao{
                 candidato.setSexoCandidato(info[5]);
                 candidato.setDataNasCandidato(info[6]);
                 candidato.setDestinoVotoCandidato(info[7]);
-                candidato.idadeCandidato(this.dataEleicao);
+                candidato.setIdadeCandidato(this.dataEleicao);
                 candidato.setNumeroPartidoCandidato(info[8]);
 
                 setCandidato(candidato);                
