@@ -1,3 +1,4 @@
+package Package;
 public class Partido {
     private String numero_partido;
     private Integer votos_legenda;

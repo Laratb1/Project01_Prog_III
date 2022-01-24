@@ -1,4 +1,7 @@
 import java.io.IOException;
+
+import Package.Eleicao;
+
 import java.io.*;
 
 public class App {

@@ -1,3 +1,4 @@
+package Package;
 public class Candidato implements Comparable<Candidato> {
     private String numero;
     private int votos_nominais;
