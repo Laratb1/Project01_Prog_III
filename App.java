@@ -1,8 +1,5 @@
 import java.io.IOException;
-
 import Package.Eleicao;
-
-import java.io.*;
 
 public class App {
     public static void main(String[] args) throws IOException {
@@ -12,7 +9,7 @@ public class App {
             System.exit(1);
         }
 
-        new File("Relatorios").mkdirs();
+        //new File("Relatorios").mkdirs();
 
         Eleicao eleicao = new Eleicao();
 
