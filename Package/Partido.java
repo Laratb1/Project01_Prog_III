@@ -4,6 +4,8 @@ public class Partido {
     private Integer votos_legenda;
     private String nome_partido;
     private String sigla_partido;
+    private int totalVotosNominais;
+    private int totalVotos;
 
     // Getters
 
@@ -23,6 +25,14 @@ public class Partido {
         return this.sigla_partido;
     }
 
+    public int getTotalVotosNominais() {
+        return this.totalVotosNominais;
+    }
+
+    public int getTotalVotos() {
+        return this.totalVotos;
+    }
+
     // Setters
 
     public void setNumeroPartido(String num) {
@@ -39,6 +49,15 @@ public class Partido {
 
     public void setSiglaPartido(String sigla) {
         this.sigla_partido = sigla;
+    }
+
+    public void setTotalVotosNominais(int total) {
+        this.setTotalVotos(total + this.getVotosLegenda());
+        this.totalVotosNominais = total;
+    }
+
+    public void setTotalVotos(int total) {
+        this.totalVotos = total;
     }
 
     // Functions
