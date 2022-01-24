@@ -76,16 +76,7 @@ public class Candidato implements Comparable<Candidato>{
     public void setNumeroPartidoCandidato(String numPartido){
         this.numero_partido = numPartido;
     }
-    public void setIdadeCandidato(int idade){
-        this.idade = idade;
-    }
-    public void setPartidoCandidato(Partido p){
-        this.partido = p;
-    }
-
-    //Functions
-
-    public void idadeCandidato(int data[]){
+    public void setIdadeCandidato(int data[]){
         int idade = 0;
 
         int anoComp = data[2];
@@ -117,6 +108,11 @@ public class Candidato implements Comparable<Candidato>{
         this.idade = idade;
         
     }
+    public void setPartidoCandidato(Partido p){
+        this.partido = p;
+    }
+
+    //Functions
 
     @Override
     public int compareTo(Candidato c){ 
