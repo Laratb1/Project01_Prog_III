@@ -1,82 +1,62 @@
 import java.io.IOException;
+import java.io.*;
 
 public class App {
     public static void main(String[] args) throws IOException {
 
-        if(args.length != 3){
+        if (args.length != 3) {
             System.out.println("Argumentos insuficientes ou em excesso.");
             System.exit(1);
         }
 
-        Eleicao eleicao = new Eleicao();
+        new File("Relatorios").mkdirs();
 
-        //Leitura do arquivo de partidos
+        Eleicao eleicao = new Eleicao();
 
         eleicao.setDataEleicao(args[2]);
 
-        eleicao.leArquivoCandidatos(args[0]);   
+        // Leitura do arquivo de partidos
 
-        //Leitura do arquivo de candidatos
+        eleicao.leArquivoCandidatos(args[0]);
 
-        eleicao.leArquivoPartidos(args[1]); 
+        // Leitura do arquivo de candidatos
+
+        eleicao.leArquivoPartidos(args[1]);
 
         // ============= MAIN ====================
 
         eleicao.associaPartidoCandidato();
 
-
-        eleicao.somaNumeroDeVagas(); //Relatorio 1
+        eleicao.somaNumeroDeVagas(); // Relatorio 1
 
         eleicao.imprimeCandidatosEleitos(); // Relatorio 2
-        System.out.print("\n");
 
         eleicao.imprimeCandidatosMaisVotados(); // Relatorio 3
-        System.out.print("\n");
 
         eleicao.imprimeNaoEleitosMasSeriamEmMajoritario(); // Relatorio 4
         eleicao.imprimeEleitosMasNaoSeriamEmMajoritario(); // Relatorio 5
 
-
-        
-        // ============= TESTES DA MILLA ====================
-
-        //eleicao.ordenaCandidatosPorVotoNominal(eleicao.getCandidatos());
-
-        eleicao.imprimeNomeCandidatos();  
-
-        System.out.print("\n");
-        System.out.println("====== Votos totalizados por partidos e número de candidatos eleitos (6) ======");
-        System.out.print("\n");
+        // Votos totalizados por partidos e número de candidatos eleitos (6)
 
         eleicao.votosTotaisCandidatosEleitos();
 
-        System.out.print("\n");
-        System.out.println("====== Primeiros e Ultimos colocados (8) ======");
-        System.out.print("\n");
-
-        eleicao.primeiroUltimoColocadoPorPartido();  //Tratar casos que não tem último colocado
-
-        System.out.print("\n");
-        System.out.println("====== Votos legenda com porcentagem (7) ======");
-        System.out.print("\n");
+        // Votos legenda com porcentagem (7)
 
         eleicao.votosLegendaPorPartidoPorcentagem();
 
-        System.out.print("\n");
-        System.out.println("====== Distribuição de eleitos para cada faixa etária (9) ======");
-        System.out.print("\n");
+        // Primeiros e Ultimos colocados (8)
+
+        eleicao.primeiroUltimoColocadoPorPartido(); // Tratar casos que não tem último colocado
+
+        // Distribuição de eleitos para cada faixa etária (9)
 
         eleicao.distribuicaoEleitosPorIdade();
 
-        System.out.print("\n");
-        System.out.println("====== Eleitos por sexo (10) ======");
-        System.out.print("\n");
+        // Eleitos por sexo (10)
 
         eleicao.eleitosPorSexo();
 
-        System.out.print("\n");
-        System.out.println("====== Contabilizacao dos votos (11) ======");
-        System.out.print("\n");
+        // Contabilizacao dos votos (11)
 
         eleicao.contabilizacaoDosVotos();
 
