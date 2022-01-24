@@ -160,7 +160,7 @@ public class Eleicao {
     }
 
     public void somaNumeroDeVagas() throws IOException { // Lara (1) TALVEZ IMPRIMIR AQUI DENTRO
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
+        FileWriter arq = new FileWriter("Relatorio.txt");
         PrintWriter gravarArq = new PrintWriter(arq);
 
         int soma = 0;
