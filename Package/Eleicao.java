@@ -644,7 +644,7 @@ public class Eleicao {
         gravarArq.printf("\nTotal de votos válidos:    %.0f\n", totalVotos);
         gravarArq.printf("Total de votos nominais:   %.0f (%.2f%%)\n", totalVotosNominais,
                 totalVotosNominais * 100 / totalVotos);
-        gravarArq.printf("Total de votos de legenda: %.0f (%.2f%%)\n", totalVotosLegenda,
+        gravarArq.printf("Total de votos de legenda: %.0f (%.2f%%)\n\n", totalVotosLegenda,
                 totalVotosLegenda * 100 / totalVotos);
 
         arq.close();
