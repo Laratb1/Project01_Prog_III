@@ -77,11 +77,4 @@ public class Partido {
     public void setUltimoColocado(Candidato ultimo) {
         this.ultimoColocado = ultimo;
     }
-
-    // Functions
-
-    public void imprimePartido() {
-        System.out.println("Numero partido: " + this.numero_partido);
-        System.out.println("Sigla: " + this.sigla_partido);
-    }
 }

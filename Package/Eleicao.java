@@ -289,15 +289,6 @@ public class Eleicao {
         arq.close();
     }
 
-    public void imprimeInformacoesCandidato(Candidato c, int indice) {
-        if (c.getVotosNominaisCandidato() == 1) {
-            System.out.println(indice + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
-                    + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
-        }
-        System.out.println(indice + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
-                + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
-    }
-
     public void imprimeCandidatosEleitos() throws IOException { // Lara (2) TRATAR 1 VOTO???
         FileWriter arq = new FileWriter("Relatorio.txt", true);
         PrintWriter gravarArq = new PrintWriter(arq);
