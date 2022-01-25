@@ -364,7 +364,7 @@ public class Eleicao {
         int i = 0;
         int cont = 1;
         for (Candidato c : candidatos) {
-            if (i > this.numVagas) {
+            if (i == this.numVagas) {
                 break;
             }
             if (c.getSituacaoCandidato().equals("Não eleito") || c.getSituacaoCandidato().equals("Suplente")) {
