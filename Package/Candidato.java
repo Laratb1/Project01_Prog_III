@@ -1,5 +1,5 @@
 package Package;
-public class Candidato implements Comparable<Candidato> {
+public class Candidato {
     private String numero;
     private int votos_nominais;
     private String situacao;
@@ -127,28 +127,6 @@ public class Candidato implements Comparable<Candidato> {
 
     public void setPartidoCandidato(Partido p) {
         this.partido = p;
-    }
-
-    // Functions
-
-    @Override
-    public int compareTo(Candidato c) {
-        if (this.votos_nominais == c.getVotosNominaisCandidato()) {
-            if (this.idade > c.getIdadeCandidato()) {
-                return -1;
-            }
-            if (this.idade < c.getIdadeCandidato()) {
-                return 1;
-            }
-        }
-        if (this.votos_nominais > c.getVotosNominaisCandidato()) {
-            return -1;
-        }
-        if (this.votos_nominais < c.getVotosNominaisCandidato()) {
-            return 1;
-        }
-
-        return 0;
     }
 
 }
