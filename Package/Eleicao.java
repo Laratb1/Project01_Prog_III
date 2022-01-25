@@ -235,6 +235,31 @@ public class Eleicao {
         });
     }
 
+    public void ordenaCandidatosPorVotoNominal(){
+        Collections.sort(this.getCandidatos(), new Comparator<Candidato>() {
+            @Override
+            public int compare(Candidato c1, Candidato p2) {
+                if(c1.getVotosNominaisCandidato() > p2.getVotosNominaisCandidato()){
+                    return -1;
+                }
+                else if(c1.getVotosNominaisCandidato() < p2.getVotosNominaisCandidato()){
+                    return 1;
+                }
+                else{
+                    if(c1.getIdadeCandidato() > p2.getIdadeCandidato()){
+                        return -1;
+                    }
+                    else if(c1.getIdadeCandidato() < p2.getIdadeCandidato()){
+                        return 1;
+                    }
+                    else{
+                        return 0;
+                    }
+                }
+            }
+        });
+    }
+
     // Especial functions
 
     public void associaPartidoCandidato() { // ISSO É UMA SUGESTÃO TEM FORMA MAIS FÁCIL????
@@ -273,19 +298,12 @@ public class Eleicao {
                 + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
     }
 
-    public static LinkedList<Candidato> ordenaCandidatosPorVotoNominal(LinkedList<Candidato> lista) {
-
-        Collections.sort(lista);
-
-        return lista;
-    }
-
     public void imprimeCandidatosEleitos() throws IOException { // Lara (2) TRATAR 1 VOTO???
         FileWriter arq = new FileWriter("Relatorio.txt", true);
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.println("\nVereadores eleitos:");
-        this.candidatos = ordenaCandidatosPorVotoNominal(this.candidatos);
+        this.ordenaCandidatosPorVotoNominal();
 
         int i = 1;
         for (Candidato c : candidatos) {
@@ -377,11 +395,10 @@ public class Eleicao {
 
         int i = 0;
         for (Candidato c : candidatos) {
-            if (i > this.numVagas) {
+            if (i >= this.numVagas) {
                 break;
             }
             eleitosMajo.add(c);
-            System.out.println(c.getNomeCandidato());
             i++;
         }
 
@@ -439,11 +456,11 @@ public class Eleicao {
 
             if (totalEleitos > 1) {
                 gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                        + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + "  nominais e "
+                        + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + " nominais e "
                         + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidatos eleitos");
             } else {
                 gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                        + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + "  nominais e "
+                        + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + " nominais e "
                         + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidato eleito");
             }
 
@@ -475,6 +492,11 @@ public class Eleicao {
                     if (c.getVotosNominaisCandidato() < menor) {
                         menor = c.getVotosNominaisCandidato();
                         ultimo = c;
+                    }
+                    if(c.getVotosNominaisCandidato() == ultimo.getVotosNominaisCandidato()){
+                        if(ultimo.getIdadeCandidato() > c.getIdadeCandidato()){
+                            ultimo = c;
+                        }
                     }
                 }
             }
@@ -554,6 +576,7 @@ public class Eleicao {
                 } else if (c.getIdadeCandidato() >= 40 && c.getIdadeCandidato() < 50) {
                     entre40e50++;
                 } else if (c.getIdadeCandidato() >= 50 && c.getIdadeCandidato() < 60) {
+                    //System.out.println(c.getNomeCandidato() + " " + c.getIdadeCandidato());
                     entre50e60++;
                 } else if (c.getIdadeCandidato() >= 60) {
                     maisDe60++;
@@ -565,11 +588,11 @@ public class Eleicao {
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.printf("\nEleitos, por faixa etária (na data da eleição):\n");
-        gravarArq.printf("      Idade < 30: %.0f (%.2f)\n", menosDe30, (menosDe30 * 100 / total));
-        gravarArq.printf("30 <= Idade < 40: %.0f (%.2f)\n", entre30e40, entre30e40 * 100 / total);
-        gravarArq.printf("40 <= Idade < 50: %.0f (%.2f)\n", entre40e50, entre40e50 * 100 / total);
-        gravarArq.printf("50 <= Idade < 60: %.0f (%.2f)\n", entre50e60, entre50e60 * 100 / total);
-        gravarArq.printf("60 <= Idade     : %.0f (%.2f)\n", maisDe60, maisDe60 * 100 / total);
+        gravarArq.printf("      Idade < 30: %.0f (%.2f%%)\n", menosDe30, (menosDe30 * 100 / total));
+        gravarArq.printf("30 <= Idade < 40: %.0f (%.2f%%)\n", entre30e40, entre30e40 * 100 / total);
+        gravarArq.printf("40 <= Idade < 50: %.0f (%.2f%%)\n", entre40e50, entre40e50 * 100 / total);
+        gravarArq.printf("50 <= Idade < 60: %.0f (%.2f%%)\n", entre50e60, entre50e60 * 100 / total);
+        gravarArq.printf("60 <= Idade     : %.0f (%.2f%%)\n", maisDe60, maisDe60 * 100 / total);
 
         arq.close();
     }
