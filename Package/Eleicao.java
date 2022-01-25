@@ -1,4 +1,5 @@
 package Package;
+
 import java.util.*;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -80,11 +81,11 @@ public class Eleicao {
             // Candidato candidato = new Candidato();
 
             while (s.hasNext()) {
-                
+
                 linha = s.nextLine();
                 String[] info = linha.split(",");
 
-                if(info[7].equals("Válido")){
+                if (info[7].equals("Válido")) {
 
                     Candidato candidato = new Candidato();
 
@@ -97,7 +98,7 @@ public class Eleicao {
                     candidato.setDataNasCandidato(info[6]);
                     candidato.setDestinoVotoCandidato(info[7]);
                     candidato.setIdadeCandidato(this.dataEleicao);
-                    candidato.setNumeroPartidoCandidato(info[8]);
+                    candidato.setNumeroPartidoCandidato(Integer.parseInt(info[8]));
 
                     setCandidato(candidato);
 
@@ -129,13 +130,14 @@ public class Eleicao {
                 linha = s.nextLine();
                 String[] info = linha.split(",");
 
-                partido.setNumeroPartido(info[0]);
+                partido.setNumeroPartido(Integer.parseInt(info[0]));
                 partido.setVotosLegenda(Integer.parseInt(info[1]));
                 partido.setNomePartido(info[2]);
                 partido.setSiglaPartido(info[3]);
 
                 setPartido(partido);
             }
+            this.setVotosTotaisDosPartidos();
             s.close();
         } catch (FileNotFoundException exc) {
             System.out.println("Arquivo " + arquivo + "nao encontrado!");
@@ -146,12 +148,99 @@ public class Eleicao {
         }
     }
 
+    public void setVotosTotaisDosPartidos() {
+        for (Partido p : partidos) {
+            int votosTotais = 0;
+            for (Candidato c : candidatos) {
+                if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) {
+                    votosTotais += c.getVotosNominaisCandidato();
+                }
+            }
+            p.setTotalVotosNominais(votosTotais);
+        }
+    }
+
+    // Funções de comparação e ordenação
+
+    public void ordenaPartidosOrdemDescrescenteVotosTotais() {
+        Collections.sort(this.getPartidos(), new Comparator<Partido>() {
+            @Override
+            public int compare(Partido p1, Partido p2) {
+                if (p1.getTotalVotos() > p2.getTotalVotos()) {
+                    return -1;
+                } else if (p1.getTotalVotos() < p2.getTotalVotos()) {
+                    return 1;
+                } else {
+                    if (p1.getNumeroPartido() < p2.getNumeroPartido())
+                        return -1;
+                    else if (p1.getVotosLegenda() > p2.getVotosLegenda())
+                        return 1;
+                    else
+                        return 0;
+                }
+            }
+        });
+    }
+
+    public void ordenaPartidosOrdemDescrescenteVotosLegenda(){
+        Collections.sort(this.getPartidos(), new Comparator<Partido>() {
+            @Override
+            public int compare(Partido p1, Partido p2) {
+                if(p1.getVotosLegenda() > p2.getVotosLegenda()){
+                    return -1;
+                }
+                else if(p1.getVotosLegenda() < p2.getVotosLegenda()){
+                    return 1;
+                }
+                else{
+                    if(p1.getTotalVotosNominais() > p2.getTotalVotosNominais()){
+                        return -1;
+                    }
+                    else if(p1.getTotalVotosNominais() < p2.getTotalVotosNominais()){
+                        return 1;
+                    }
+                    else{
+                        if(p1.getNumeroPartido() < p2.getNumeroPartido()){
+                            return -1;
+                        }
+                        else if(p1.getNumeroPartido() > p2.getNumeroPartido()){
+                            return 1;
+                        }
+                        else{
+                            return 0;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    public void ordenaPartidosOrdemDecrescenteCandidatosMaisVotados(){
+        Collections.sort(this.getPartidos(), new Comparator<Partido>() {
+            @Override
+            public int compare(Partido p1, Partido p2) {
+                if (p1.getPrimeiroColocado().getVotosNominaisCandidato() > p2.getPrimeiroColocado().getVotosNominaisCandidato()) {
+                    return -1;
+                } else if (p1.getPrimeiroColocado().getVotosNominaisCandidato() < p2.getPrimeiroColocado().getVotosNominaisCandidato()) {
+                    return 1;
+                } else {
+                    if (p1.getNumeroPartido() < p2.getNumeroPartido())
+                        return -1;
+                    else if (p1.getVotosLegenda() > p2.getVotosLegenda())
+                        return 1;
+                    else
+                        return 0;
+                }
+            }
+        });
+    }
+
     // Especial functions
 
     public void associaPartidoCandidato() { // ISSO É UMA SUGESTÃO TEM FORMA MAIS FÁCIL????
         for (Partido p : partidos) {
             for (Candidato c : candidatos) {
-                if (p.getNumeroPartido().equals(c.getNumeroPartidoCandidato())) {
+                if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) {
                     c.setPartidoCandidato(p);
                 }
             }
@@ -196,7 +285,7 @@ public class Eleicao {
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.println("\nVereadores eleitos:");
-        candidatos = ordenaCandidatosPorVotoNominal(candidatos);
+        this.candidatos = ordenaCandidatosPorVotoNominal(this.candidatos);
 
         int i = 1;
         for (Candidato c : candidatos) {
@@ -225,12 +314,9 @@ public class Eleicao {
 
         gravarArq.println("\nCandidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
 
-        LinkedList<Candidato> lista = new LinkedList<>();
-        lista = ordenaCandidatosPorVotoNominal(this.candidatos);
-
         int i = 0;
         int j = 1;
-        for (Candidato c : lista) {
+        for (Candidato c : candidatos) {
             if (i == this.numVagas) {
                 break;
             }
@@ -255,25 +341,22 @@ public class Eleicao {
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.println(
-                "\nTeriam sido eleitos se a votação fosse majoritária, e não foram eleitos: \n(com sua posição no ranking de mais votados)");
-
-        LinkedList<Candidato> lista = new LinkedList<>();
-        lista = ordenaCandidatosPorVotoNominal(candidatos);
+                "\nTeriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n(com sua posição no ranking de mais votados)");
 
         int i = 0;
         int cont = 1;
-        for (Candidato c : lista) {
+        for (Candidato c : candidatos) {
             if (i > this.numVagas) {
                 break;
             }
-            if (c.getSituacaoCandidato().equals("Nao Eleito") || c.getSituacaoCandidato().equals("Suplente")) {
+            if (c.getSituacaoCandidato().equals("Não eleito") || c.getSituacaoCandidato().equals("Suplente")) {
                 if (c.getVotosNominaisCandidato() == 1) {
                     gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
-                            + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato()
+                            + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
                             + " voto)");
                 } else {
                     gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
-                            + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato()
+                            + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
                             + " votos)");
                 }
             }
@@ -288,28 +371,33 @@ public class Eleicao {
         PrintWriter gravarArq = new PrintWriter(arq);
 
         gravarArq.println(
-                "\nEleitos, que se beneficiaram do sistema proporcional: \n(com sua posição no ranking de mais votados)");
-        LinkedList<Candidato> lista = new LinkedList<>();
-        lista = ordenaCandidatosPorVotoNominal(candidatos);
+                "\nEleitos, que se beneficiaram do sistema proporcional:\n(com sua posição no ranking de mais votados)");
+
+        LinkedList<Candidato> eleitosMajo = new LinkedList<>();
 
         int i = 0;
-        int cont = 1;
-        for (Candidato c : lista) {
+        for (Candidato c : candidatos) {
             if (i > this.numVagas) {
                 break;
             }
-            if (c.getSituacaoCandidato().equals("Eleito")) {
+            eleitosMajo.add(c);
+            System.out.println(c.getNomeCandidato());
+            i++;
+        }
+
+        int cont = 1;
+        for (Candidato c : candidatos) {
+            if (c.getSituacaoCandidato().equals("Eleito") && !(eleitosMajo.contains(c))) {
                 if (c.getVotosNominaisCandidato() == 1) {
                     gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
-                            + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato()
+                            + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
                             + " voto)");
                 } else {
                     gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
-                            + c.getPartidoCandidato().getNomePartido() + ", " + c.getVotosNominaisCandidato()
+                            + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
                             + " votos)");
                 }
             }
-            i++;
             cont++;
         }
 
@@ -327,19 +415,21 @@ public class Eleicao {
         return numero;
     }
 
-    public void votosTotaisCandidatosEleitos() throws IOException {
+    public void votosTotaisCandidatosEleitos() throws IOException { // (6)
         int i = 1;
+
+        this.ordenaPartidosOrdemDescrescenteVotosTotais();
 
         FileWriter arq = new FileWriter("Relatorio.txt", true);
         PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.println("\nVotação dos partidos e número de candidatos eleitos: ");
+        gravarArq.println("\nVotação dos partidos e número de candidatos eleitos:");
 
         for (Partido p : partidos) {
             int totalEleitos = 0;
             int votosTotais = 0;
             for (Candidato c : candidatos) {
-                if (c.getNumeroPartidoCandidato().equals(p.getNumeroPartido())) {
+                if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) {
                     if (c.getSituacaoCandidato().equals("Eleito")) {
                         totalEleitos++;
                     }
@@ -347,26 +437,22 @@ public class Eleicao {
                 }
             }
 
-            p.setTotalVotosNominais(votosTotais);
+            if (totalEleitos > 1) {
+                gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                        + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + "  nominais e "
+                        + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidatos eleitos");
+            } else {
+                gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                        + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + "  nominais e "
+                        + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidato eleito");
+            }
 
-            if(totalEleitos > 1){
-                gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                    + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + "  nominais e "
-                    + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidatos eleitos");
-            }
-            else{
-                gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                    + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + "  nominais e "
-                    + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidato eleito");
-            }
-            
             i++;
         }
-
         arq.close();
     }
 
-    public void primeiroUltimoColocadoPorPartido() throws IOException {
+    public void primeiroUltimoColocadoPorPartido() throws IOException { // (8)
         int i = 1;
 
         FileWriter arq = new FileWriter("Relatorio.txt", true);
@@ -381,44 +467,51 @@ public class Eleicao {
             int menor = 100000;
 
             for (Candidato c : candidatos) {
-                if (c.getNumeroPartidoCandidato().equals(p.getNumeroPartido())) {
+                if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) {
                     if (c.getVotosNominaisCandidato() > maior) {
                         maior = c.getVotosNominaisCandidato();
                         primeiro = c;
-                    } else if (c.getVotosNominaisCandidato() < menor) {
+                    }
+                    if (c.getVotosNominaisCandidato() < menor) {
                         menor = c.getVotosNominaisCandidato();
                         ultimo = c;
                     }
-               }
+                }
+            }
+            p.setPrimeiroColocado(primeiro);
+            p.setUltimoColocado(ultimo);
+        }
+
+        this.ordenaPartidosOrdemDecrescenteCandidatosMaisVotados();
+
+        for (Partido p : partidos){
+            if (p.getPrimeiroColocado().getVotosNominaisCandidato() > 1) {
+                gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                        + p.getPrimeiroColocado().getNomeUrnaCandidato() + " (" + p.getPrimeiroColocado().getNumeroCandidato() + ", "
+                        + p.getPrimeiroColocado().getVotosNominaisCandidato() + " votos) / ");
+            } else {
+                gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                        + p.getPrimeiroColocado().getNomeUrnaCandidato() + " (" + p.getPrimeiroColocado().getNumeroCandidato() + ", "
+                        + p.getPrimeiroColocado().getVotosNominaisCandidato() + " voto) / ");
+            }
+            if (p.getUltimoColocado().getVotosNominaisCandidato() > 1) {
+                gravarArq.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
+                        + p.getUltimoColocado().getVotosNominaisCandidato() + " votos)");
+            } else {
+                gravarArq.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
+                        + p.getUltimoColocado().getVotosNominaisCandidato() + " voto)");
             }
 
-            if (primeiro.getVotosNominaisCandidato() > 1){
-                gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                        + primeiro.getNomeUrnaCandidato() + " (" + primeiro.getNumeroCandidato() + ", "
-                        + primeiro.getVotosNominaisCandidato() + " votos) / ");
-            }
-            else{
-                gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                        + primeiro.getNomeUrnaCandidato() + " (" + primeiro.getNumeroCandidato() + ", "
-                        + primeiro.getVotosNominaisCandidato() + " voto) / ");
-            }
-            if(ultimo.getVotosNominaisCandidato() > 1){
-                gravarArq.println(ultimo.getNomeUrnaCandidato() + " (" + ultimo.getNumeroCandidato() + ", "
-                    + ultimo.getVotosNominaisCandidato() + " votos)");
-            }
-            else{
-                gravarArq.println(ultimo.getNomeUrnaCandidato() + " (" + ultimo.getNumeroCandidato() + ", "
-                    + ultimo.getVotosNominaisCandidato() + " voto)");
-            }
-            
             i++;
         }
 
         arq.close();
     }
 
-    public void votosLegendaPorPartidoPorcentagem() throws IOException {
+    public void votosLegendaPorPartidoPorcentagem() throws IOException { // (7)
         int i = 1;
+
+        this.ordenaPartidosOrdemDescrescenteVotosLegenda();
 
         FileWriter arq = new FileWriter("Relatorio.txt", true);
         PrintWriter gravarArq = new PrintWriter(arq);
@@ -429,7 +522,7 @@ public class Eleicao {
             double votos = p.getVotosLegenda();
             double total = 0;
             for (Candidato c : candidatos) {
-                if (c.getNumeroPartidoCandidato().equals(p.getNumeroPartido())) {
+                if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) {
                     total += c.getVotosNominaisCandidato();
                 }
             }
@@ -525,7 +618,7 @@ public class Eleicao {
         FileWriter arq = new FileWriter("Relatorio.txt", true);
         PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.printf("\nTotal de votos válidos:    " + totalVotos + "\n");
+        gravarArq.printf("\nTotal de votos válidos:    %.0f\n", totalVotos);
         gravarArq.printf("Total de votos nominais:   %.0f (%.2f%%)\n", totalVotosNominais,
                 totalVotosNominais * 100 / totalVotos);
         gravarArq.printf("Total de votos de legenda: %.0f (%.2f%%)\n", totalVotosLegenda,
