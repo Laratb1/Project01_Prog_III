@@ -1,15 +1,17 @@
 package Package;
 public class Partido {
-    private String numero_partido;
+    private int numero_partido;
     private Integer votos_legenda;
     private String nome_partido;
     private String sigla_partido;
     private int totalVotosNominais;
     private int totalVotos;
+    private Candidato primeiroColocado;
+    private Candidato ultimoColocado;
 
     // Getters
 
-    public String getNumeroPartido() {
+    public int getNumeroPartido() {
         return this.numero_partido;
     }
 
@@ -33,9 +35,17 @@ public class Partido {
         return this.totalVotos;
     }
 
+    public Candidato getPrimeiroColocado() {
+        return this.primeiroColocado;
+    }
+
+    public Candidato getUltimoColocado() {
+        return this.ultimoColocado;
+    }
+
     // Setters
 
-    public void setNumeroPartido(String num) {
+    public void setNumeroPartido(int num) {
         this.numero_partido = num;
     }
 
@@ -58,6 +68,14 @@ public class Partido {
 
     public void setTotalVotos(int total) {
         this.totalVotos = total;
+    }
+
+    public void setPrimeiroColocado(Candidato primeiro) {
+        this.primeiroColocado = primeiro;
+    }
+
+    public void setUltimoColocado(Candidato ultimo) {
+        this.ultimoColocado = ultimo;
     }
 
     // Functions
