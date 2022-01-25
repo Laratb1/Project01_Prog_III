@@ -10,7 +10,6 @@ public class Candidato {
     private String destino_voto;
     private int numero_partido;
     private int idade;
-    private Partido partido;
 
     // Getters
 
@@ -52,10 +51,6 @@ public class Candidato {
 
     public int getIdadeCandidato() {
         return this.idade;
-    }
-
-    public Partido getPartidoCandidato() {
-        return this.partido;
     }
 
     // Setters
@@ -123,10 +118,6 @@ public class Candidato {
 
         this.idade = idade;
 
-    }
-
-    public void setPartidoCandidato(Partido p) {
-        this.partido = p;
     }
 
 }
