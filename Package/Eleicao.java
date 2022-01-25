@@ -576,7 +576,7 @@ public class Eleicao {
                 } else if (c.getIdadeCandidato() >= 40 && c.getIdadeCandidato() < 50) {
                     entre40e50++;
                 } else if (c.getIdadeCandidato() >= 50 && c.getIdadeCandidato() < 60) {
-                    //System.out.println(c.getNomeCandidato() + " " + c.getIdadeCandidato());
+                    System.out.println(c.getNomeCandidato() + " " + c.getIdadeCandidato() + " " + c.getDataNasCandidato());
                     entre50e60++;
                 } else if (c.getIdadeCandidato() >= 60) {
                     maisDe60++;

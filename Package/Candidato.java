@@ -77,7 +77,7 @@ public class Candidato {
     }
 
     public void setNomeUrnaCandidato(String nomeUrna) {
-        this.nome_urna = nomeUrna;
+        this.nome_urna = nomeUrna.trim();
     }
 
     public void setSexoCandidato(String sexo) {
@@ -109,10 +109,10 @@ public class Candidato {
         int mes = Integer.parseInt(dataNasc[1]);
         int dia = Integer.parseInt(dataNasc[0]);
 
-        if (mes < mesComp) {
+        if (mes > mesComp) {
             idade = anoComp - ano - 1;
         } else if (mes == mesComp) {
-            if (dia < diaComp) {
+            if (dia > diaComp) {
                 idade = anoComp - ano - 1;
             } else {
                 idade = anoComp - ano;
