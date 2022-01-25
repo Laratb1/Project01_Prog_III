@@ -8,7 +8,7 @@ public class Candidato implements Comparable<Candidato> {
     private String sexo;
     private String data_nasc;
     private String destino_voto;
-    private String numero_partido;
+    private int numero_partido;
     private int idade;
     private Partido partido;
 
@@ -46,7 +46,7 @@ public class Candidato implements Comparable<Candidato> {
         return this.destino_voto;
     }
 
-    public String getNumeroPartidoCandidato() {
+    public int getNumeroPartidoCandidato() {
         return this.numero_partido;
     }
 
@@ -92,7 +92,7 @@ public class Candidato implements Comparable<Candidato> {
         this.destino_voto = destinoVoto;
     }
 
-    public void setNumeroPartidoCandidato(String numPartido) {
+    public void setNumeroPartidoCandidato(int numPartido) {
         this.numero_partido = numPartido;
     }
 
