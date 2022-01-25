@@ -459,9 +459,16 @@ public class Eleicao {
                         + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + " nominais e "
                         + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidatos eleitos");
             } else {
-                gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                        + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + " nominais e "
-                        + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidato eleito");
+                if(p.getTotalVotosNominais() + p.getVotosLegenda() > 1 && p.getTotalVotosNominais() > 1){
+                    gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                            + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + " nominais e "
+                            + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidato eleito");
+                }
+                else{
+                    gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                            + (p.getVotosLegenda() + votosTotais) + " voto (" + votosTotais + " nominal e "
+                            + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidato eleito");
+                }
             }
 
             i++;
@@ -507,22 +514,24 @@ public class Eleicao {
         this.ordenaPartidosOrdemDecrescenteCandidatosMaisVotados();
 
         for (Partido p : partidos){
-            if (p.getPrimeiroColocado().getVotosNominaisCandidato() > 1) {
-                gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                        + p.getPrimeiroColocado().getNomeUrnaCandidato() + " (" + p.getPrimeiroColocado().getNumeroCandidato() + ", "
-                        + p.getPrimeiroColocado().getVotosNominaisCandidato() + " votos) / ");
-            } else {
-                gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                        + p.getPrimeiroColocado().getNomeUrnaCandidato() + " (" + p.getPrimeiroColocado().getNumeroCandidato() + ", "
-                        + p.getPrimeiroColocado().getVotosNominaisCandidato() + " voto) / ");
-            }
-            if (p.getUltimoColocado().getVotosNominaisCandidato() > 1) {
-                gravarArq.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
-                        + p.getUltimoColocado().getVotosNominaisCandidato() + " votos)");
-            } else {
-                gravarArq.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
-                        + p.getUltimoColocado().getVotosNominaisCandidato() + " voto)");
-            }
+            if(p.getVotosLegenda() != 0){
+                if (p.getPrimeiroColocado().getVotosNominaisCandidato() > 1) {
+                    gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                            + p.getPrimeiroColocado().getNomeUrnaCandidato() + " (" + p.getPrimeiroColocado().getNumeroCandidato() + ", "
+                            + p.getPrimeiroColocado().getVotosNominaisCandidato() + " votos) / ");
+                } else {
+                    gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                            + p.getPrimeiroColocado().getNomeUrnaCandidato() + " (" + p.getPrimeiroColocado().getNumeroCandidato() + ", "
+                            + p.getPrimeiroColocado().getVotosNominaisCandidato() + " voto) / ");
+                }
+                if (p.getUltimoColocado().getVotosNominaisCandidato() > 1) {
+                    gravarArq.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
+                            + p.getUltimoColocado().getVotosNominaisCandidato() + " votos)");
+                } else {
+                    gravarArq.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
+                            + p.getUltimoColocado().getVotosNominaisCandidato() + " voto)");
+                }
+          }
 
             i++;
         }
@@ -548,11 +557,15 @@ public class Eleicao {
                     total += c.getVotosNominaisCandidato();
                 }
             }
-            if (total != 0) {
+            if (total != 0 && p.getVotosLegenda() > 1) {
                 double porcentagem = (votos * 100) / (total + p.getVotosLegenda());
                 gravarArq.printf("%d - %s - %s, %.0f votos de legenda (%.2f%% do total do partido)\n", i,
                         p.getSiglaPartido(), p.getNumeroPartido(), votos, porcentagem);
                 i++;
+            }
+            else{
+                gravarArq.printf("%d - %s - %s, %.0f voto de legenda (proporção não calculada, 0 voto no partido)\n", i,
+                        p.getSiglaPartido(), p.getNumeroPartido(), votos);
             }
         }
         arq.close();
@@ -576,7 +589,7 @@ public class Eleicao {
                 } else if (c.getIdadeCandidato() >= 40 && c.getIdadeCandidato() < 50) {
                     entre40e50++;
                 } else if (c.getIdadeCandidato() >= 50 && c.getIdadeCandidato() < 60) {
-                    System.out.println(c.getNomeCandidato() + " " + c.getIdadeCandidato() + " " + c.getDataNasCandidato());
+                    //System.out.println(c.getNomeCandidato() + " " + c.getIdadeCandidato() + " " + c.getDataNasCandidato());
                     entre50e60++;
                 } else if (c.getIdadeCandidato() >= 60) {
                     maisDe60++;
