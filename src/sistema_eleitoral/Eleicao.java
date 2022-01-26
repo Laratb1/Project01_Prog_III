@@ -1,4 +1,4 @@
-package Package;
+package src.sistema_eleitoral;
 
 import java.util.*;
 import java.io.BufferedReader;
@@ -7,8 +7,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 
 public class Eleicao {
     private LinkedList<Candidato> candidatos = new LinkedList<>();
@@ -274,8 +272,6 @@ public class Eleicao {
     }
 
     public void somaNumeroDeVagas() throws IOException { // Lara (1) TALVEZ IMPRIMIR AQUI DENTRO
-        FileWriter arq = new FileWriter("Relatorio.txt");
-        PrintWriter gravarArq = new PrintWriter(arq);
 
         int soma = 0;
         for (Candidato c : candidatos) {
@@ -284,27 +280,24 @@ public class Eleicao {
             }
         }
         this.setNumVagas(soma);
-        gravarArq.println("Número de vagas: " + this.numVagas);
+        System.out.println("Número de vagas: " + this.numVagas);
 
-        arq.close();
     }
 
     public void imprimeCandidatosEleitos() throws IOException { // Lara (2) TRATAR 1 VOTO???
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
-        PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.println("\nVereadores eleitos:");
+        System.out.println("\nVereadores eleitos:");
         this.ordenaCandidatosPorVotoNominal();
 
         int i = 1;
         for (Candidato c : candidatos) {
             if (c.getSituacaoCandidato().equals("Eleito")) {
                 if (c.getVotosNominaisCandidato() == 1) {
-                    gravarArq.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
+                    System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
                             + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
                             + " voto)");
                 } else {
-                    gravarArq.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
+                    System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
                             + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
                             + " votos)");
                 }
@@ -312,16 +305,13 @@ public class Eleicao {
             }
         }
 
-        arq.close();
     }
 
     // TESTAR ESSA FUNCAO COM ARQUIVO MAIOR ***MUITO NECESSARIO***
     public void imprimeCandidatosMaisVotados() throws IOException { // Lara (3) COMPARACAO FEITA COM O VOTOS NOMINAIS
                                                                     // ?????
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
-        PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.println("\nCandidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
+        System.out.println("\nCandidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
 
         int i = 0;
         int j = 1;
@@ -330,26 +320,23 @@ public class Eleicao {
                 break;
             }
             if (c.getVotosNominaisCandidato() == 1) {
-                gravarArq.println(j + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
+                System.out.println(j + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
                         + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato() + " voto)");
             } else {
-                gravarArq.println(j + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
+                System.out.println(j + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
                         + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato() + " votos)");
             }
             i++;
             j++;
         }
 
-        arq.close();
     }
 
     // Para ver se seriam eleitos devo comparar com o menos votado e que foi
     // eleito?????
     public void imprimeNaoEleitosMasSeriamEmMajoritario() throws IOException { // Lara (4) SUPLENTE CONTA ?
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
-        PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.println(
+        System.out.println(
                 "\nTeriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n(com sua posição no ranking de mais votados)");
 
         int i = 0;
@@ -360,11 +347,11 @@ public class Eleicao {
             }
             if (c.getSituacaoCandidato().equals("Não eleito") || c.getSituacaoCandidato().equals("Suplente")) {
                 if (c.getVotosNominaisCandidato() == 1) {
-                    gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
+                    System.out.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
                             + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
                             + " voto)");
                 } else {
-                    gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
+                    System.out.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
                             + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
                             + " votos)");
                 }
@@ -372,14 +359,11 @@ public class Eleicao {
             i++;
             cont++;
         }
-        arq.close();
     }
 
     public void imprimeEleitosMasNaoSeriamEmMajoritario() throws IOException { // Lara (5)
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
-        PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.println(
+        System.out.println(
                 "\nEleitos, que se beneficiaram do sistema proporcional:\n(com sua posição no ranking de mais votados)");
 
         LinkedList<Candidato> eleitosMajo = new LinkedList<>();
@@ -397,11 +381,11 @@ public class Eleicao {
         for (Candidato c : candidatos) {
             if (c.getSituacaoCandidato().equals("Eleito") && !(eleitosMajo.contains(c))) {
                 if (c.getVotosNominaisCandidato() == 1) {
-                    gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
+                    System.out.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
                             + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
                             + " voto)");
                 } else {
-                    gravarArq.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
+                    System.out.println(cont + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
                             + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
                             + " votos)");
                 }
@@ -409,7 +393,6 @@ public class Eleicao {
             cont++;
         }
 
-        arq.close();
 
     }
 
@@ -428,10 +411,8 @@ public class Eleicao {
 
         this.ordenaPartidosOrdemDescrescenteVotosTotais();
 
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
-        PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.println("\nVotação dos partidos e número de candidatos eleitos:");
+        System.out.println("\nVotação dos partidos e número de candidatos eleitos:");
 
         for (Partido p : partidos) {
             int totalEleitos = 0;
@@ -446,17 +427,17 @@ public class Eleicao {
             }
 
             if (totalEleitos > 1) {
-                gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                System.out.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
                         + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + " nominais e "
                         + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidatos eleitos");
             } else {
                 if(p.getTotalVotosNominais() + p.getVotosLegenda() > 1 && p.getTotalVotosNominais() > 1){
-                    gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                    System.out.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
                             + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + " nominais e "
                             + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidato eleito");
                 }
                 else{
-                    gravarArq.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                    System.out.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
                             + (p.getVotosLegenda() + votosTotais) + " voto (" + votosTotais + " nominal e "
                             + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidato eleito");
                 }
@@ -464,16 +445,13 @@ public class Eleicao {
 
             i++;
         }
-        arq.close();
     }
 
     public void primeiroUltimoColocadoPorPartido() throws IOException { // (8)
         int i = 1;
 
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
-        PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.println("\nPrimeiro e último colocados de cada partido:");
+        System.out.println("\nPrimeiro e último colocados de cada partido:");
 
         for (Partido p : partidos) {
             Candidato primeiro = new Candidato();
@@ -507,19 +485,19 @@ public class Eleicao {
         for (Partido p : partidos){
             if(p.getVotosLegenda() != 0){
                 if (p.getPrimeiroColocado().getVotosNominaisCandidato() > 1) {
-                    gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                    System.out.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
                             + p.getPrimeiroColocado().getNomeUrnaCandidato() + " (" + p.getPrimeiroColocado().getNumeroCandidato() + ", "
                             + p.getPrimeiroColocado().getVotosNominaisCandidato() + " votos) / ");
                 } else {
-                    gravarArq.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
+                    System.out.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
                             + p.getPrimeiroColocado().getNomeUrnaCandidato() + " (" + p.getPrimeiroColocado().getNumeroCandidato() + ", "
                             + p.getPrimeiroColocado().getVotosNominaisCandidato() + " voto) / ");
                 }
                 if (p.getUltimoColocado().getVotosNominaisCandidato() > 1) {
-                    gravarArq.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
+                    System.out.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
                             + p.getUltimoColocado().getVotosNominaisCandidato() + " votos)");
                 } else {
-                    gravarArq.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
+                    System.out.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
                             + p.getUltimoColocado().getVotosNominaisCandidato() + " voto)");
                 }
           }
@@ -527,7 +505,6 @@ public class Eleicao {
             i++;
         }
 
-        arq.close();
     }
 
     public void votosLegendaPorPartidoPorcentagem() throws IOException { // (7)
@@ -535,10 +512,8 @@ public class Eleicao {
 
         this.ordenaPartidosOrdemDescrescenteVotosLegenda();
 
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
-        PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.println("\nVotação dos partidos (apenas votos de legenda):");
+        System.out.println("\nVotação dos partidos (apenas votos de legenda):");
 
         for (Partido p : partidos) {
             double votos = p.getVotosLegenda();
@@ -550,16 +525,15 @@ public class Eleicao {
             }
             if (total != 0 && p.getVotosLegenda() > 1) {
                 double porcentagem = (votos * 100) / (total + p.getVotosLegenda());
-                gravarArq.printf("%d - %s - %s, %.0f votos de legenda (%.2f%% do total do partido)\n", i,
+                System.out.printf("%d - %s - %s, %.0f votos de legenda (%.2f%% do total do partido)\n", i,
                         p.getSiglaPartido(), p.getNumeroPartido(), votos, porcentagem);
                 i++;
             }
             else{
-                gravarArq.printf("%d - %s - %s, %.0f voto de legenda (proporção não calculada, 0 voto no partido)\n", i,
+                System.out.printf("%d - %s - %s, %.0f voto de legenda (proporção não calculada, 0 voto no partido)\n", i,
                         p.getSiglaPartido(), p.getNumeroPartido(), votos);
             }
         }
-        arq.close();
     }
 
     public void distribuicaoEleitosPorIdade() throws IOException {
@@ -588,17 +562,14 @@ public class Eleicao {
             }
         }
 
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
-        PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.printf("\nEleitos, por faixa etária (na data da eleição):\n");
-        gravarArq.printf("      Idade < 30: %.0f (%.2f%%)\n", menosDe30, (menosDe30 * 100 / total));
-        gravarArq.printf("30 <= Idade < 40: %.0f (%.2f%%)\n", entre30e40, entre30e40 * 100 / total);
-        gravarArq.printf("40 <= Idade < 50: %.0f (%.2f%%)\n", entre40e50, entre40e50 * 100 / total);
-        gravarArq.printf("50 <= Idade < 60: %.0f (%.2f%%)\n", entre50e60, entre50e60 * 100 / total);
-        gravarArq.printf("60 <= Idade     : %.0f (%.2f%%)\n", maisDe60, maisDe60 * 100 / total);
+        System.out.printf("\nEleitos, por faixa etária (na data da eleição):\n");
+        System.out.printf("      Idade < 30: %.0f (%.2f%%)\n", menosDe30, (menosDe30 * 100 / total));
+        System.out.printf("30 <= Idade < 40: %.0f (%.2f%%)\n", entre30e40, entre30e40 * 100 / total);
+        System.out.printf("40 <= Idade < 50: %.0f (%.2f%%)\n", entre40e50, entre40e50 * 100 / total);
+        System.out.printf("50 <= Idade < 60: %.0f (%.2f%%)\n", entre50e60, entre50e60 * 100 / total);
+        System.out.printf("60 <= Idade     : %.0f (%.2f%%)\n", maisDe60, maisDe60 * 100 / total);
 
-        arq.close();
     }
 
     public void eleitosPorSexo() throws IOException {
@@ -617,14 +588,11 @@ public class Eleicao {
             }
         }
 
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
-        PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.printf("\nEleitos, por sexo:\n");
-        gravarArq.printf("Feminino:  %.0f (%.2f%%)\n", mulheres, mulheres * 100 / total);
-        gravarArq.printf("Masculino: %.0f (%.2f%%)\n", homens, homens * 100 / total);
+        System.out.printf("\nEleitos, por sexo:\n");
+        System.out.printf("Feminino:  %.0f (%.2f%%)\n", mulheres, mulheres * 100 / total);
+        System.out.printf("Masculino: %.0f (%.2f%%)\n", homens, homens * 100 / total);
 
-        arq.close();
     }
 
     public void contabilizacaoDosVotos() throws IOException {
@@ -642,15 +610,12 @@ public class Eleicao {
 
         totalVotos = totalVotosNominais + totalVotosLegenda;
 
-        FileWriter arq = new FileWriter("Relatorio.txt", true);
-        PrintWriter gravarArq = new PrintWriter(arq);
 
-        gravarArq.printf("\nTotal de votos válidos:    %.0f\n", totalVotos);
-        gravarArq.printf("Total de votos nominais:   %.0f (%.2f%%)\n", totalVotosNominais,
+        System.out.printf("\nTotal de votos válidos:    %.0f\n", totalVotos);
+        System.out.printf("Total de votos nominais:   %.0f (%.2f%%)\n", totalVotosNominais,
                 totalVotosNominais * 100 / totalVotos);
-        gravarArq.printf("Total de votos de legenda: %.0f (%.2f%%)\n\n", totalVotosLegenda,
+        System.out.printf("Total de votos de legenda: %.0f (%.2f%%)\n\n", totalVotosLegenda,
                 totalVotosLegenda * 100 / totalVotos);
 
-        arq.close();
     }
 }

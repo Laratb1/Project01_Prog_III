@@ -1,4 +1,4 @@
-package Package;
+package src.sistema_eleitoral;
 public class Candidato {
     private String numero;
     private int votos_nominais;

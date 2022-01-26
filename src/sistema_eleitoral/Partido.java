@@ -1,4 +1,4 @@
-package Package;
+package src.sistema_eleitoral;
 public class Partido {
     private int numero_partido;
     private Integer votos_legenda;

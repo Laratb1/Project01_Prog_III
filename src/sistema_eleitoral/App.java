@@ -1,5 +1,5 @@
+package src.sistema_eleitoral;
 import java.io.IOException;
-import Package.Eleicao;
 
 public class App {
     public static void main(String[] args) throws IOException {
