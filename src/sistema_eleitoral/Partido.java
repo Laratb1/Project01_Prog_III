@@ -61,9 +61,10 @@ public class Partido {
         this.sigla_partido = sigla;
     }
 
-    public void setTotalVotosNominais(int total) {
-        this.setTotalVotos(total + this.getVotosLegenda());
-        this.totalVotosNominais = total;
+    // Atribui a soma dp total de votos nominais e do total de votos gerais
+    public void setTotalVotosNominais(int totalNominal) { 
+        this.setTotalVotos(totalNominal + this.getVotosLegenda());
+        this.totalVotosNominais = totalNominal;
     }
 
     public void setTotalVotos(int total) {

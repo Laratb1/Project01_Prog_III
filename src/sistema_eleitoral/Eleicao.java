@@ -9,10 +9,10 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 public class Eleicao {
-    private LinkedList<Candidato> candidatos = new LinkedList<>();
-    private LinkedList<Partido> partidos = new LinkedList<>();
-    private int numVagas;
-    private int[] dataEleicao = new int[3];
+    private LinkedList<Candidato> candidatos = new LinkedList<>(); // Lista de candidatos
+    private LinkedList<Partido> partidos = new LinkedList<>(); // Lista de partidos
+    private int numVagas; // Numero de eleitos 
+    private int[] dataEleicao = new int[3]; // Data passada na linha de comando
 
     // Getters
 
@@ -26,6 +26,10 @@ public class Eleicao {
 
     public int getNumVagas() {
         return this.numVagas;
+    }
+
+    public int[] getDataEleicao() {
+        return this.dataEleicao;
     }
 
     // Setters
@@ -44,27 +48,16 @@ public class Eleicao {
 
     public void setDataEleicao(String data) {
 
-        String[] dataEleicao = data.split("/");
+        String[] dataEleicao = data.split("/"); // Separa as informacoes da data de eleicao
+
+        // Atribui os valores aos atributos da classe
 
         this.dataEleicao[2] = Integer.parseInt(dataEleicao[2]);
         this.dataEleicao[1] = Integer.parseInt(dataEleicao[1]);
         this.dataEleicao[0] = Integer.parseInt(dataEleicao[0]);
     }
 
-    // Functions
-
-    public void imprimeNomePartidos() {
-        for (Partido p : partidos) {
-            System.out.println(p.getNomePartido());
-        }
-    }
-
-    public void imprimeNomeCandidatos() {
-        for (Candidato c : candidatos) {
-            System.out.println(c.getNomeCandidato() + " / Votos nominais: " + c.getVotosNominaisCandidato());
-            // c.getPartidoCandidato().imprimePartido();
-        }
-    }
+    // Funções de leitura dos arquivos
 
     public void leArquivoCandidatos(String arquivo) {
         try (FileInputStream fp = new FileInputStream(arquivo)) {
@@ -72,21 +65,21 @@ public class Eleicao {
             BufferedReader br = new BufferedReader(p);
             Scanner s = new Scanner(br);
 
-            s.useDelimiter(",");
-            s.nextLine();
+            s.useDelimiter(","); 
+            s.nextLine(); // pula a primeira linha 
             String linha = new String();
 
-            // Candidato candidato = new Candidato();
-
+            // Percorre cada uma das linhas do arquivo e salva as informações de cada candidato
             while (s.hasNext()) {
 
                 linha = s.nextLine();
                 String[] info = linha.split(",");
 
-                if (info[7].equals("Válido")) {
+                if (info[7].equals("Válido")) { // Descarta votos "Anulado"
 
                     Candidato candidato = new Candidato();
 
+                    // Setters das propriedades de candidato
                     candidato.setNumeroCandidato(info[0]);
                     candidato.setVotosNominaisCandidato(Integer.parseInt(info[1]));
                     candidato.setSituacaoCandidato(info[2]);
@@ -98,11 +91,13 @@ public class Eleicao {
                     candidato.setIdadeCandidato(this.dataEleicao);
                     candidato.setNumeroPartidoCandidato(Integer.parseInt(info[8]));
 
-                    setCandidato(candidato);
+                    setCandidato(candidato); // Adiciona o candidato a lista de candidatos
 
                 }
-
             }
+
+            this.associaPartidoCandidato();
+
             s.close();
         } catch (FileNotFoundException exc) {
             System.out.println("Arquivo " + arquivo + " nao encontrado!");
@@ -123,17 +118,19 @@ public class Eleicao {
             s.nextLine(); // pula a primeira linha
             String linha = new String();
 
+            // Percorre cada uma das linhas do arquivo e salva as informações de cada partido
             while (s.hasNext()) {
-                Partido partido = new Partido();
                 linha = s.nextLine();
                 String[] info = linha.split(",");
+
+                Partido partido = new Partido();
 
                 partido.setNumeroPartido(Integer.parseInt(info[0]));
                 partido.setVotosLegenda(Integer.parseInt(info[1]));
                 partido.setNomePartido(info[2]);
                 partido.setSiglaPartido(info[3]);
 
-                setPartido(partido);
+                setPartido(partido); // Adiciona o partido a lista de partidos
             }
             this.setVotosTotaisDosPartidos();
             s.close();
@@ -147,11 +144,11 @@ public class Eleicao {
     }
 
     public void setVotosTotaisDosPartidos() {
-        for (Partido p : partidos) {
+        for (Partido p : partidos) { // percorre a lista de partidos
             int votosTotais = 0;
-            for (Candidato c : candidatos) {
-                if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) {
-                    votosTotais += c.getVotosNominaisCandidato();
+            for (Candidato c : candidatos) { // percorre a lista de candidatos
+                if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) { // verifica se o candidato pertence ao partido
+                    votosTotais += c.getVotosNominaisCandidato(); // soma os votos do candidato aos votos totais
                 }
             }
             p.setTotalVotosNominais(votosTotais);
@@ -161,7 +158,11 @@ public class Eleicao {
     // Funções de comparação e ordenação
 
     public void ordenaPartidosOrdemDescrescenteVotosTotais() {
+        // ordena a lista de partidos por ordem descrescente dos votos totais
+        // se houver empate, ordena por ordem crescente dos numeros dos partidos
+        
         Collections.sort(this.getPartidos(), new Comparator<Partido>() {
+            // Sobrescreve a função compare() para comparar o total de votos por partidos 
             @Override
             public int compare(Partido p1, Partido p2) {
                 if (p1.getTotalVotos() > p2.getTotalVotos()) {
@@ -171,7 +172,7 @@ public class Eleicao {
                 } else {
                     if (p1.getNumeroPartido() < p2.getNumeroPartido())
                         return -1;
-                    else if (p1.getVotosLegenda() > p2.getVotosLegenda())
+                    else if (p1.getNumeroPartido() > p2.getNumeroPartido())
                         return 1;
                     else
                         return 0;
@@ -181,7 +182,12 @@ public class Eleicao {
     }
 
     public void ordenaPartidosOrdemDescrescenteVotosLegenda(){
+        // ordena a lista de partidos por ordem descrescente dos votos de legenda
+        // se houver empate, ordena por ordem decrescente dos votos nominais
+        // se ainda houver empate, ordena por ordem crescente dos numeros dos partidos
+        
         Collections.sort(this.getPartidos(), new Comparator<Partido>() {
+            // Sobrescreve a função compare() para comparar os votos de legenda do partido 
             @Override
             public int compare(Partido p1, Partido p2) {
                 if(p1.getVotosLegenda() > p2.getVotosLegenda()){
@@ -214,7 +220,11 @@ public class Eleicao {
     }
 
     public void ordenaPartidosOrdemDecrescenteCandidatosMaisVotados(){
+        // ordena a lista de partidos por ordem decrescente dos candidatos mais votados
+        // se houver empate, ordena por ordem crescente dos numeros dos partidos
+
         Collections.sort(this.getPartidos(), new Comparator<Partido>() {
+            // Sobrescreve a função compare() para comparar os candidatos mais votados do partido
             @Override
             public int compare(Partido p1, Partido p2) {
                 if (p1.getPrimeiroColocado().getVotosNominaisCandidato() > p2.getPrimeiroColocado().getVotosNominaisCandidato()) {
@@ -234,7 +244,11 @@ public class Eleicao {
     }
 
     public void ordenaCandidatosPorVotoNominal(){
+        // ordena a lista de candidatos por ordem crescente dos votos nominais
+        // se houver empate, ordena por ordem decrescente da idade dos candidatos
+        
         Collections.sort(this.getCandidatos(), new Comparator<Candidato>() {
+            // Sobrescreve a função compare() para comparar os votos de nominais do candidato 
             @Override
             public int compare(Candidato c1, Candidato p2) {
                 if(c1.getVotosNominaisCandidato() > p2.getVotosNominaisCandidato()){

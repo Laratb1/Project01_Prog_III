@@ -1,62 +1,73 @@
+/**
+ * Autoras: Lara Tagarro e Milla Pereira
+ * Data: 10/02/2022
+ * O programa visa analisar os dados referentes
+ * a uma eleicao e gerar relatórios com a informações
+ * dos candidatos e partidos.
+ */
+
 package src.sistema_eleitoral;
 import java.io.IOException;
 
 public class App {
     public static void main(String[] args) throws IOException {
 
-        if (args.length != 3) {
+        if (args.length != 3) { // Verifica se o número de argumentos é igual a 3
             System.out.println("Argumentos insuficientes ou em excesso.");
             System.exit(1);
         }
 
-        //new File("Relatorios").mkdirs();
+        Eleicao eleicao = new Eleicao(); // Instancia a classe Eleicao
 
-        Eleicao eleicao = new Eleicao();
+        eleicao.setDataEleicao(args[2]); // Atribui a data da eleicao a propriedade dataEleicao
 
-        eleicao.setDataEleicao(args[2]);
+        eleicao.leArquivoPartidos(args[1]); // Leitura do arquivo de candidatos
 
-        // Leitura do arquivo de partidos
+        eleicao.leArquivoCandidatos(args[0]); // Leitura do arquivo de partidos
 
-        eleicao.leArquivoCandidatos(args[0]);
+        // ============= Gerção dos relatórios ====================
 
-        // Leitura do arquivo de candidatos
+        // Número de vagas = quantidade de candidatos eleitos (Relatorio 1)
 
-        eleicao.leArquivoPartidos(args[1]);
+        eleicao.somaNumeroDeVagas();
 
-        // ============= MAIN ====================
+        // Candidatos eleitos na eleição (Relatorio 2)
 
-        eleicao.associaPartidoCandidato();
+        eleicao.imprimeCandidatosEleitos(); 
 
-        eleicao.somaNumeroDeVagas(); // Relatorio 1
+        // Candidatos mais votados, por votos nominal (Relatorio 3)
 
-        eleicao.imprimeCandidatosEleitos(); // Relatorio 2
+        eleicao.imprimeCandidatosMaisVotados(); 
 
-        eleicao.imprimeCandidatosMaisVotados(); // Relatorio 3
+        // Candidatos que nao foram eleitos, mas seriam se a elaição fosse majoritária (Relatorio 4)  
 
-        eleicao.imprimeNaoEleitosMasSeriamEmMajoritario(); // Relatorio 4
-        eleicao.imprimeEleitosMasNaoSeriamEmMajoritario(); // Relatorio 5
+        eleicao.imprimeNaoEleitosMasSeriamEmMajoritario();
 
-        // Votos totalizados por partidos e número de candidatos eleitos (6)
+        // Candidatos que foram eleitos, mas não seriam se fosse por voto majoritario (Relatorio 5)
+        
+        eleicao.imprimeEleitosMasNaoSeriamEmMajoritario(); 
+
+        // Votos totalizados por partidos e número de candidatos eleitos (Relatorio 6)
 
         eleicao.votosTotaisCandidatosEleitos();
 
-        // Votos legenda com porcentagem (7)
+        // Votos legenda com porcentagem (Relatorio 7)
 
         eleicao.votosLegendaPorPartidoPorcentagem();
 
-        // Primeiros e Ultimos colocados (8)
+        // Primeiros e Ultimos colocados (Relatorio 8)
 
-        eleicao.primeiroUltimoColocadoPorPartido(); // Tratar casos que não tem último colocado
+        eleicao.primeiroUltimoColocadoPorPartido();
 
-        // Distribuição de eleitos para cada faixa etária (9)
+        // Distribuição de eleitos para cada faixa etária (Relatorio 9)
 
         eleicao.distribuicaoEleitosPorIdade();
 
-        // Eleitos por sexo (10)
+        // Eleitos por sexo (Relatorio 10)
 
         eleicao.eleitosPorSexo();
 
-        // Contabilizacao dos votos (11)
+        // Contabilizacao dos votos (Relatorio 11)
 
         eleicao.contabilizacaoDosVotos();
 

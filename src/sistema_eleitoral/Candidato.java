@@ -96,33 +96,34 @@ public class Candidato {
         this.numero_partido = numPartido;
     }
 
-    public void setIdadeCandidato(int data[]) {
+    public void setIdadeCandidato(int data[]) { // recebe como parametro a data da eleicao
         int idade = 0;
+        
+        // Atribui ano, mes e dia da eleicao as variáveis  
+        int anoEleicao = data[2];
+        int mesEleicao = data[1];
+        int diaEleicao = data[0];
 
-        int anoComp = data[2];
-        int mesComp = data[1];
-        int diaComp = data[0];
+        String[] dataNasc = this.getDataNasCandidato().split("/"); // separa as informaçoes da data de nascimento do candidato 
 
-        String[] dataNasc = this.getDataNasCandidato().split("/");
-
+        // Atribui ano, mes e dia do nascimento do candidato as variáveis 
         int ano = Integer.parseInt(dataNasc[2]);
         int mes = Integer.parseInt(dataNasc[1]);
         int dia = Integer.parseInt(dataNasc[0]);
 
-        if (mes > mesComp) {
-            idade = anoComp - ano - 1;
-        } else if (mes == mesComp) {
-            if (dia > diaComp) {
-                idade = anoComp - ano - 1;
+        if (mes > mesEleicao) { // se o mes de nascimento eh maior que o mes da eleicao
+            idade = anoEleicao - ano - 1;
+        } else if (mes == mesEleicao) { // se o mes de nascimento eh igual ao mes da eleicao
+            if (dia > diaEleicao) { // se o dia de nascimento eh maior que o dia da eleicao
+                idade = anoEleicao - ano - 1;
             } else {
-                idade = anoComp - ano;
+                idade = anoEleicao - ano;
             }
         } else {
-            idade = anoComp - ano;
+            idade = anoEleicao - ano;
         }
 
-        this.idade = idade;
-
+        this.idade = idade; // Atribui a propriedade idade da classe 
     }
 
     public void setPartidoCandidato(Partido p) {
