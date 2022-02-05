@@ -353,9 +353,7 @@ public class Eleicao {
 
     }
 
-    // Para ver se seriam eleitos devo comparar com o menos votado e que foi
-    // eleito?????
-    public void imprimeNaoEleitosMasSeriamEmMajoritario() throws IOException { // Lara (4) SUPLENTE CONTA ?
+    public void imprimeNaoEleitosMasSeriamEmMajoritario() throws IOException { // (4)
 
         System.out.println(
                 "\nTeriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n(com sua posição no ranking de mais votados)");
@@ -428,38 +426,36 @@ public class Eleicao {
     }
 
     public void votosTotaisCandidatosEleitos() throws IOException { // (6)
-        int i = 1;
+        int i = 1; // Varíavel utilizada como índice
 
-        this.ordenaPartidosOrdemDescrescenteVotosTotais();
-
+        this.ordenaPartidosOrdemDescrescenteVotosTotais(); // ordena lista de partidos em ordem decrescente de quantidade de cotos totais
 
         System.out.println("\nVotação dos partidos e número de candidatos eleitos:");
 
         for (Partido p : partidos) {
             int totalEleitos = 0;
-            int votosTotais = 0;
-            for (Candidato c : candidatos) {
+            
+            for (Candidato c : candidatos) { // Percorre a lista de partidos contabilizando a quantidade de eleitos de cada um
                 if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) {
                     if (c.getSituacaoCandidato().equals("Eleito")) {
                         totalEleitos++;
                     }
-                    votosTotais += c.getVotosNominaisCandidato();
                 }
             }
 
             if (totalEleitos > 1) {
                 System.out.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                        + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + " nominais e "
+                        + (p.getVotosLegenda() + p.getTotalVotosNominais()) + " votos (" + p.getTotalVotosNominais() + " nominais e "
                         + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidatos eleitos");
             } else {
                 if(p.getTotalVotosNominais() + p.getVotosLegenda() > 1 && p.getTotalVotosNominais() > 1){
                     System.out.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                            + (p.getVotosLegenda() + votosTotais) + " votos (" + votosTotais + " nominais e "
+                            + (p.getVotosLegenda() + p.getTotalVotosNominais()) + " votos (" + p.getTotalVotosNominais() + " nominais e "
                             + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidato eleito");
                 }
                 else{
                     System.out.println(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
-                            + (p.getVotosLegenda() + votosTotais) + " voto (" + votosTotais + " nominal e "
+                            + (p.getVotosLegenda() + p.getTotalVotosNominais()) + " voto (" + p.getTotalVotosNominais() + " nominal e "
                             + p.getVotosLegenda() + " de legenda), " + totalEleitos + " candidato eleito");
                 }
             }
@@ -469,12 +465,11 @@ public class Eleicao {
     }
 
     public void primeiroUltimoColocadoPorPartido() throws IOException { // (8)
-        int i = 1;
-
+        int i = 1; // Varíavel usada para o índice
 
         System.out.println("\nPrimeiro e último colocados de cada partido:");
 
-        for (Partido p : partidos) {
+        for (Partido p : partidos) { // Percorre a lista de partidos salvando os primeiros e últimmos colocados de cada
             Candidato primeiro = new Candidato();
             Candidato ultimo = new Candidato();
             int maior = 0;
@@ -482,47 +477,48 @@ public class Eleicao {
 
             for (Candidato c : candidatos) {
                 if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) {
-                    if (c.getVotosNominaisCandidato() > maior) {
+                    if (c.getVotosNominaisCandidato() > maior) { // Salva o candidato se tiver a quantidade de votos maior que a da variável
                         maior = c.getVotosNominaisCandidato();
                         primeiro = c;
                     }
-                    if (c.getVotosNominaisCandidato() < menor) {
+                    if (c.getVotosNominaisCandidato() < menor) { // Salva o candidato se tiver a quantidade de votos menor que a da variável
                         menor = c.getVotosNominaisCandidato();
                         ultimo = c;
                     }
-                    if(c.getVotosNominaisCandidato() == ultimo.getVotosNominaisCandidato()){
+                    if(c.getVotosNominaisCandidato() == ultimo.getVotosNominaisCandidato()){ // Salva o candidato se tiver a quantidade de votos igual a da variável, mas for mais novo
                         if(ultimo.getIdadeCandidato() > c.getIdadeCandidato()){
                             ultimo = c;
                         }
                     }
                 }
             }
+
+            // Atribui os candidatos à propriedade do partido
             p.setPrimeiroColocado(primeiro);
             p.setUltimoColocado(ultimo);
         }
 
-        this.ordenaPartidosOrdemDecrescenteCandidatosMaisVotados();
+        this.ordenaPartidosOrdemDecrescenteCandidatosMaisVotados(); // Ordena a lista de partidos em ordem decrescent de primeiro colocado mais votado
 
-        for (Partido p : partidos){
+        for (Partido p : partidos){ // Percorre a lista de partidos imprimindo os primeiros e últimos colocados de cada um  
             if(p.getVotosLegenda() != 0){
-                if (p.getPrimeiroColocado().getVotosNominaisCandidato() > 1) {
+                if (p.getPrimeiroColocado().getVotosNominaisCandidato() > 1) { // Primeiro colocado com mais de um voto
                     System.out.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
                             + p.getPrimeiroColocado().getNomeUrnaCandidato() + " (" + p.getPrimeiroColocado().getNumeroCandidato() + ", "
                             + p.getPrimeiroColocado().getVotosNominaisCandidato() + " votos) / ");
-                } else {
+                } else { // Primeiro colocado com um voto ou menos
                     System.out.print(i + " - " + p.getSiglaPartido() + " - " + p.getNumeroPartido() + ", "
                             + p.getPrimeiroColocado().getNomeUrnaCandidato() + " (" + p.getPrimeiroColocado().getNumeroCandidato() + ", "
                             + p.getPrimeiroColocado().getVotosNominaisCandidato() + " voto) / ");
                 }
-                if (p.getUltimoColocado().getVotosNominaisCandidato() > 1) {
+                if (p.getUltimoColocado().getVotosNominaisCandidato() > 1) { // Último colocado com mais de um voto
                     System.out.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
                             + p.getUltimoColocado().getVotosNominaisCandidato() + " votos)");
-                } else {
+                } else { // Último colocado com um voto ou menos
                     System.out.println(p.getUltimoColocado().getNomeUrnaCandidato() + " (" + p.getUltimoColocado().getNumeroCandidato() + ", "
                             + p.getUltimoColocado().getVotosNominaisCandidato() + " voto)");
                 }
           }
-
             i++;
         }
 
@@ -531,31 +527,26 @@ public class Eleicao {
     public void votosLegendaPorPartidoPorcentagem() throws IOException { // (7)
         int i = 1;
 
-        this.ordenaPartidosOrdemDescrescenteVotosLegenda();
-
+        this.ordenaPartidosOrdemDescrescenteVotosLegenda(); // Ordena a lista de candidatos por ordem descrescente de votos legendas
 
         System.out.println("\nVotação dos partidos (apenas votos de legenda):");
 
-        for (Partido p : partidos) {
+        for (Partido p : partidos) { // Percorre a lista de partidos imprimindo as informações dos votos
             double votos = p.getVotosLegenda();
-            double total = 0;
-            for (Candidato c : candidatos) {
-                if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) {
-                    total += c.getVotosNominaisCandidato();
-                }
-            }
-            if (total != 0 && p.getVotosLegenda() > 1) {
-                double porcentagem = (votos * 100) / (total + p.getVotosLegenda());
+            
+            if (p.getTotalVotosNominais() != 0 && p.getVotosLegenda() > 1) {
+                double porcentagem = (votos * 100) / (p.getTotalVotosNominais() + p.getVotosLegenda());
                 System.out.printf("%d - %s - %s, %.0f votos de legenda (%.2f%% do total do partido)\n", i,
                         p.getSiglaPartido(), p.getNumeroPartido(), votos, porcentagem);
                 i++;
             }
-            else{
+            else{ // Tratamento dos casos onde total de votos = 0
                 System.out.printf("%d - %s - %s, %.0f voto de legenda (proporção não calculada, 0 voto no partido)\n", i,
                         p.getSiglaPartido(), p.getNumeroPartido(), votos);
             }
         }
     }
+
     public void distribuicaoEleitosPorIdade() throws IOException {
         double menosDe30 = 0;
         double entre30e40 = 0;
