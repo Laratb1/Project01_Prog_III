@@ -25,8 +25,6 @@ public class App {
 
         eleicao.leArquivoPartidos(args[1]); // Leitura do arquivo de candidatos
 
-        
-
         // ============= Gerção dos relatórios ====================
 
         eleicao.associaPartidoCandidato();
@@ -45,11 +43,11 @@ public class App {
 
         // Candidatos que nao foram eleitos, mas seriam se a elaição fosse majoritária (Relatorio 4)  
 
-        eleicao.imprimeNaoEleitosMasSeriamEmMajoritario();
+        eleicao.naoForamEleitosMasSeriamEmMajoritario();
 
         // Candidatos que foram eleitos, mas não seriam se fosse por voto majoritario (Relatorio 5)
         
-        eleicao.imprimeEleitosMasNaoSeriamEmMajoritario(); 
+        eleicao.foramEleitosMasNaoSeriamEmMajoritario(); 
 
         // Votos totalizados por partidos e número de candidatos eleitos (Relatorio 6)
 
