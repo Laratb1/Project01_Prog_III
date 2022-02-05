@@ -155,7 +155,7 @@ public class Eleicao {
         }
     }
 
-    // Funções de comparação e ordenação
+    // Funções auxiliares e de ordenação
 
     public void ordenaPartidosOrdemDescrescenteVotosTotais() {
         // ordena a lista de partidos por ordem descrescente dos votos totais
@@ -172,7 +172,7 @@ public class Eleicao {
                 } else {
                     if (p1.getNumeroPartido() < p2.getNumeroPartido())
                         return -1;
-                    else if (p1.getNumeroPartido() > p2.getNumeroPartido())
+                    else if (p1.getVotosLegenda() > p2.getVotosLegenda())
                         return 1;
                     else
                         return 0;
@@ -234,7 +234,7 @@ public class Eleicao {
                 } else {
                     if (p1.getNumeroPartido() < p2.getNumeroPartido())
                         return -1;
-                    else if (p1.getVotosLegenda() > p2.getVotosLegenda())
+                    else if (p1.getNumeroPartido() < p2.getNumeroPartido())
                         return 1;
                     else
                         return 0;
@@ -272,9 +272,8 @@ public class Eleicao {
         });
     }
 
-    // Especial functions
-
-    public void associaPartidoCandidato() { // ISSO É UMA SUGESTÃO TEM FORMA MAIS FÁCIL????
+    // associa o cada candidato a um partido 
+    public void associaPartidoCandidato() { 
         for (Partido p : partidos) {
             for (Candidato c : candidatos) {
                 if (p.getNumeroPartido() == c.getNumeroPartidoCandidato()) {
@@ -285,27 +284,36 @@ public class Eleicao {
         }
     }
 
-    public void somaNumeroDeVagas() throws IOException { // Lara (1) TALVEZ IMPRIMIR AQUI DENTRO
+    // Funções que geram relatórios
+
+    // Função para somar o número de vagas da eleição (total de eleitos)
+    public void somaNumeroDeVagas() throws IOException {
 
         int soma = 0;
         for (Candidato c : candidatos) {
+            // Se a situação "Eleito" acrescenta a total
             if (c.getSituacaoCandidato().equals("Eleito")) {
                 soma++;
             }
         }
+        // Atribui a propriedade numVagas da classe 
         this.setNumVagas(soma);
         System.out.println("Número de vagas: " + this.numVagas);
 
     }
 
-    public void imprimeCandidatosEleitos() throws IOException { // Lara (2) TRATAR 1 VOTO???
+    // Função para imprimir todos os candidatos eleitos 
+    public void candidatosEleitos() throws IOException {
 
         System.out.println("\nVereadores eleitos:");
+        // Ordena a lista de candidatos da classe, a partir daqui sempre estará ordenada 
         this.ordenaCandidatosPorVotoNominal();
 
         int i = 1;
         for (Candidato c : candidatos) {
+            // Se a situcção for "Eleito" imprime candidato
             if (c.getSituacaoCandidato().equals("Eleito")) {
+                // Se foi eleito com apenas 1 voto 
                 if (c.getVotosNominaisCandidato() == 1) {
                     System.out.println(i + " - " + c.getNomeCandidato() + " / " + c.getNomeUrnaCandidato() + " ("
                             + c.getPartidoCandidato().getSiglaPartido() + ", " + c.getVotosNominaisCandidato()
@@ -321,9 +329,8 @@ public class Eleicao {
 
     }
 
-    // TESTAR ESSA FUNCAO COM ARQUIVO MAIOR ***MUITO NECESSARIO***
-    public void imprimeCandidatosMaisVotados() throws IOException { // Lara (3) COMPARACAO FEITA COM O VOTOS NOMINAIS
-                                                                    // ?????
+    // 
+    public void candidatosMaisVotados() throws IOException {
 
         System.out.println("\nCandidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
 
@@ -549,7 +556,6 @@ public class Eleicao {
             }
         }
     }
-
     public void distribuicaoEleitosPorIdade() throws IOException {
         double menosDe30 = 0;
         double entre30e40 = 0;
@@ -558,8 +564,8 @@ public class Eleicao {
         double maisDe60 = 0;
         double total = 0;
 
-        for (Candidato c : candidatos) {
-            if (c.getSituacaoCandidato().equals("Eleito")) {
+        for (Candidato c : candidatos) { // Percorre a lista de candidatos contabilizando a distribuição etária
+            if (c.getSituacaoCandidato().equals("Eleito")) { // Verifica se o candidato é eleito
                 total++;
                 if (c.getIdadeCandidato() < 30) {
                     menosDe30++;
@@ -568,7 +574,6 @@ public class Eleicao {
                 } else if (c.getIdadeCandidato() >= 40 && c.getIdadeCandidato() < 50) {
                     entre40e50++;
                 } else if (c.getIdadeCandidato() >= 50 && c.getIdadeCandidato() < 60) {
-                    //System.out.println(c.getNomeCandidato() + " " + c.getIdadeCandidato() + " " + c.getDataNasCandidato());
                     entre50e60++;
                 } else if (c.getIdadeCandidato() >= 60) {
                     maisDe60++;
@@ -576,7 +581,7 @@ public class Eleicao {
             }
         }
 
-
+        // Impressão dos resultados 
         System.out.printf("\nEleitos, por faixa etária (na data da eleição):\n");
         System.out.printf("      Idade < 30: %.0f (%.2f%%)\n", menosDe30, (menosDe30 * 100 / total));
         System.out.printf("30 <= Idade < 40: %.0f (%.2f%%)\n", entre30e40, entre30e40 * 100 / total);
@@ -591,18 +596,19 @@ public class Eleicao {
         double mulheres = 0;
         double total = 0;
 
+        // Percorrendo a lista de candidatos
         for (Candidato c : candidatos) {
-            if (c.getSituacaoCandidato().equals("Eleito")) {
+            if (c.getSituacaoCandidato().equals("Eleito")) { // Verifica se o candidato foi eleito
                 total++;
-                if (c.getSexoCandidato().equals("M")) {
+                if (c.getSexoCandidato().equals("M")) { // Verifica se o candidato é homem
                     homens++;
-                } else if (c.getSexoCandidato().equals("F")) {
+                } else if (c.getSexoCandidato().equals("F")) { // Verifica se o candidato é mulher
                     mulheres++;
                 }
             }
         }
 
-
+        // Impressão dos resultados 
         System.out.printf("\nEleitos, por sexo:\n");
         System.out.printf("Feminino:  %.0f (%.2f%%)\n", mulheres, mulheres * 100 / total);
         System.out.printf("Masculino: %.0f (%.2f%%)\n", homens, homens * 100 / total);
@@ -615,16 +621,16 @@ public class Eleicao {
         double totalVotosLegenda = 0;
 
         for (Partido p : partidos) {
-            totalVotosLegenda += p.getVotosLegenda();
+            totalVotosLegenda += p.getVotosLegenda(); // Soma os votos de legenda de todos os partidos
         }
 
         for (Candidato c : candidatos) {
-            totalVotosNominais += c.getVotosNominaisCandidato();
+            totalVotosNominais += c.getVotosNominaisCandidato(); // Soma os votos nominais de todos os candidatos
         }
 
-        totalVotos = totalVotosNominais + totalVotosLegenda;
+        totalVotos = totalVotosNominais + totalVotosLegenda; // Soma os votos nominais e os votos de legenda
 
-
+        // Impressão dos resultados         
         System.out.printf("\nTotal de votos válidos:    %.0f\n", totalVotos);
         System.out.printf("Total de votos nominais:   %.0f (%.2f%%)\n", totalVotosNominais,
                 totalVotosNominais * 100 / totalVotos);

@@ -21,11 +21,15 @@ public class App {
 
         eleicao.setDataEleicao(args[2]); // Atribui a data da eleicao a propriedade dataEleicao
 
-        eleicao.leArquivoPartidos(args[1]); // Leitura do arquivo de candidatos
-
         eleicao.leArquivoCandidatos(args[0]); // Leitura do arquivo de partidos
 
+        eleicao.leArquivoPartidos(args[1]); // Leitura do arquivo de candidatos
+
+        
+
         // ============= Gerção dos relatórios ====================
+
+        eleicao.associaPartidoCandidato();
 
         // Número de vagas = quantidade de candidatos eleitos (Relatorio 1)
 
@@ -33,11 +37,11 @@ public class App {
 
         // Candidatos eleitos na eleição (Relatorio 2)
 
-        eleicao.imprimeCandidatosEleitos(); 
+        eleicao.candidatosEleitos(); 
 
         // Candidatos mais votados, por votos nominal (Relatorio 3)
 
-        eleicao.imprimeCandidatosMaisVotados(); 
+        eleicao.candidatosMaisVotados(); 
 
         // Candidatos que nao foram eleitos, mas seriam se a elaição fosse majoritária (Relatorio 4)  
 
