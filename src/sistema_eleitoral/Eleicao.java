@@ -284,7 +284,7 @@ public class Eleicao {
     // Funções que geram relatórios
 
     // Função para somar o número de vagas da eleição (total de eleitos)
-    public void somaNumeroDeVagas() throws IOException {
+    public void somaNumeroDeVagas() {
         int soma = 0;
         
         for (Candidato c : candidatos) {
@@ -300,7 +300,7 @@ public class Eleicao {
     }
 
     // Função para imprimir todos os candidatos eleitos
-    public void candidatosEleitos() throws IOException {
+    public void candidatosEleitos() {
 
         System.out.println("\nVereadores eleitos:");
         // Ordena a lista de candidatos da classe, a partir daqui sempre estará ordenada
@@ -328,7 +328,7 @@ public class Eleicao {
 
     // Função que imprime os candidatos mais votados no número de vagas e por voto
     // nominal em ordem
-    public void candidatosMaisVotados() throws IOException { // (3)
+    public void candidatosMaisVotados() { // (3)
 
         System.out
                 .println("\nCandidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
@@ -354,7 +354,7 @@ public class Eleicao {
     }
 
     // Função para imprimir os que seriam eleitos se fosse majoritário dentro do números de vagas 
-    public void naoForamEleitosMasSeriamEmMajoritario() throws IOException { 
+    public void naoForamEleitosMasSeriamEmMajoritario() { 
 
         System.out.println(
                 "\nTeriam sido eleitos se a votação fosse majoritária, e não foram eleitos:\n(com sua posição no ranking de mais votados)");
@@ -385,7 +385,7 @@ public class Eleicao {
     }
 
     // Função que imprime os candidatos que foram eleitos mas não seriam em majoritário
-    public void foramEleitosMasNaoSeriamEmMajoritario() throws IOException { // (5)
+    public void foramEleitosMasNaoSeriamEmMajoritario() { // (5)
 
         System.out.println(
                 "\nEleitos, que se beneficiaram do sistema proporcional:\n(com sua posição no ranking de mais votados)");
@@ -425,7 +425,7 @@ public class Eleicao {
         }
     }
 
-    public void votosTotaisCandidatosEleitos() throws IOException { // (6)
+    public void votosTotaisCandidatosEleitos() { // (6)
         int i = 1; // Varíavel utilizada como índice
 
         this.ordenaPartidosOrdemDescrescenteVotosTotais(); // ordena lista de partidos em ordem decrescente de
@@ -464,7 +464,7 @@ public class Eleicao {
         }
     }
 
-    public void primeiroUltimoColocadoPorPartido() throws IOException { // (8)
+    public void primeiroUltimoColocadoPorPartido() { // (8)
         int i = 1; // Varíavel usada para o índice
 
         System.out.println("\nPrimeiro e último colocados de cada partido:");
@@ -537,7 +537,7 @@ public class Eleicao {
 
     }
 
-    public void votosLegendaPorPartidoPorcentagem() throws IOException { // (7)
+    public void votosLegendaPorPartidoPorcentagem() { // (7)
         int i = 1;
 
         this.ordenaPartidosOrdemDescrescenteVotosLegenda(); // Ordena a lista de candidatos por ordem descrescente de
@@ -561,7 +561,7 @@ public class Eleicao {
         }
     }
 
-    public void distribuicaoEleitosPorIdade() throws IOException {
+    public void distribuicaoEleitosPorIdade() {
         double menosDe30 = 0;
         double entre30e40 = 0;
         double entre40e50 = 0;
@@ -596,7 +596,7 @@ public class Eleicao {
 
     }
 
-    public void eleitosPorSexo() throws IOException {
+    public void eleitosPorSexo() {
         double homens = 0;
         double mulheres = 0;
         double total = 0;
@@ -620,7 +620,7 @@ public class Eleicao {
 
     }
 
-    public void contabilizacaoDosVotos() throws IOException {
+    public void contabilizacaoDosVotos() {
         double totalVotos = 0;
         double totalVotosNominais = 0;
         double totalVotosLegenda = 0;

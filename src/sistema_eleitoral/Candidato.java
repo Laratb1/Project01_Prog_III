@@ -61,7 +61,7 @@ public class Candidato {
     // Setters
 
     public void setNumeroCandidato(String n) {
-        this.numero = n;
+        this.numero = n.trim();
     }
 
     public void setVotosNominaisCandidato(int v) {
@@ -69,11 +69,11 @@ public class Candidato {
     }
 
     public void setSituacaoCandidato(String s) {
-        this.situacao = s;
+        this.situacao = s.trim();
     }
 
     public void setNomeCandidato(String nome) {
-        this.nome = nome;
+        this.nome = nome.trim();
     }
 
     public void setNomeUrnaCandidato(String nomeUrna) {
@@ -81,15 +81,15 @@ public class Candidato {
     }
 
     public void setSexoCandidato(String sexo) {
-        this.sexo = sexo;
+        this.sexo = sexo.trim();
     }
 
     public void setDataNasCandidato(String dataNasc) {
-        this.data_nasc = dataNasc;
+        this.data_nasc = dataNasc.trim();
     }
 
     public void setDestinoVotoCandidato(String destinoVoto) {
-        this.destino_voto = destinoVoto;
+        this.destino_voto = destinoVoto.trim();
     }
 
     public void setNumeroPartidoCandidato(int numPartido) {

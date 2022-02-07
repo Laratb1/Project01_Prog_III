@@ -7,10 +7,9 @@
  */
 
 package src.sistema_eleitoral;
-import java.io.IOException;
 
 public class App {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         if (args.length != 3) { // Verifica se o número de argumentos é igual a 3
             System.out.println("Argumentos insuficientes ou em excesso.");

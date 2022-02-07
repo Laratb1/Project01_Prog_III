@@ -54,11 +54,11 @@ public class Partido {
     }
 
     public void setNomePartido(String nome) {
-        this.nome_partido = nome;
+        this.nome_partido = nome.trim();
     }
 
     public void setSiglaPartido(String sigla) {
-        this.sigla_partido = sigla;
+        this.sigla_partido = sigla.trim();
     }
 
     // Atribui a soma dp total de votos nominais e do total de votos gerais
